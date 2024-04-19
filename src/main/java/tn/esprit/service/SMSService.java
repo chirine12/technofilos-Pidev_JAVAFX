@@ -8,8 +8,7 @@ public class SMSService {
         String accountSid = System.getenv("TWILIO_ACCOUNT_SID");
         String authToken = System.getenv("TWILIO_AUTH_TOKEN");
 
-        System.out.println("TWILIO_ACCOUNT_SID: " + accountSid);
-        System.out.println("TWILIO_AUTH_TOKEN: " + authToken);
+       
 
         Twilio.init(accountSid, authToken);
     }
