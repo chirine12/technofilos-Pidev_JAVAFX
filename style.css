@@ -1,0 +1,52 @@
+.title{
+    -fx-font-size: 2em;
+    -fx-text-fill: #FFFF; /* Correction de la couleur */
+    -fx-font-weight: bold;
+}
+
+.form_container {
+    -fx-background-color: linear-gradient(to bottom, #0A3353, #016A91); /* Dégradé de bleu */
+    -fx-effect: dropshadow(gaussian, #0A3353, 20, 0.3, 0, 0); /* Ombre douce pour donner de la profondeur */
+}
+
+.form_container Text{
+    -fx-font-size: 1.2em;
+    -fx-fill: #EEEEEE; /* Changement pour une meilleure visibilité sur le fond foncé */
+}
+.form_container ComboBox{
+    -fx-pref-width: 250; /* Correction présumée de la largeur préférée */
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+}
+
+
+.form_container VBox{
+    -fx-border-width: 1; /* Correction de la largeur de bordure */
+    -fx-border-color: #FFFFFF; /* Bordure blanche pour contraster avec le fond */
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.form_container TextField{
+    -fx-pref-width: 250; /* Correction présumée de la largeur préférée */
+    -fx-pref-height: 35;
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+}
+
+.form_container Button{
+    -fx-background-color: linear-gradient(to right, #0A3353, #016A91); /* Maintien du dégradé */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 3, 0, 0, 3); /* Ombre avec transparence pour un effet plus doux */
+    -fx-pref-width: 100%;
+    -fx-font-size: 1.0em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #FFFFFF;
+}
+
+.form_container Button:hover{
+    -fx-cursor: hand;
+    -fx-background-color: linear-gradient(to right, #092834, #014D70); /* Un hover plus sombre */
+}
