@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="1052.0" styleClass="form_container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.BeneficiaireController">
+    <children>
+        <VBox layoutY="121.0" prefHeight="258.0" prefWidth="300.0" spacing="15.0" styleClass="form_container" stylesheets="style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="121.0">
+            <children>
+                <Text fx:id="nomid" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" />
+                <TextField fx:id="tNom" />
+                <Text fx:id="prenomid" strokeType="OUTSIDE" strokeWidth="0.0" text="Prenom" />
+                <TextField fx:id="tPrenom" />
+                <Text fx:id="ribid" strokeType="OUTSIDE" strokeWidth="0.0" text="Rib" />
+                <TextField fx:id="tRib" />
+
+
+            </children>
+        </VBox>
+        <TableView fx:id="tableBeneficiaire" layoutX="458.0" layoutY="160.0" prefHeight="258.0" prefWidth="614.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="120.0">
+            <columns>
+                <TableColumn fx:id="nomCol" prefWidth="160.0" text="Nom" />
+                <TableColumn fx:id="prenomCol" prefWidth="171.0" text="Prenom" />
+                <TableColumn fx:id="ribCol" prefWidth="282.0" text="Rib" />
+            </columns>
+        </TableView>
+        <Label fx:id="title" alignment="CENTER" layoutX="379.0" layoutY="28.0" prefHeight="35.0" prefWidth="266.0" styleClass="title" stylesheets="style.css" text="Beneficiaire" />
+        <ButtonBar layoutX="266.0" layoutY="470.0" prefHeight="40.0" prefWidth="340.0">
+            <buttons>
+
+
+                <Button fx:id="btncreateV" mnemonicParsing="false" onAction="#createBeneficiaire" prefHeight="34.0" prefWidth="200.0" text="Creer" />
+                <Button fx:id="btnmodifV" layoutX="307.0" layoutY="18.0" mnemonicParsing="false" onAction="#updateBeneficiaire" prefHeight="34.0" prefWidth="111.0" text="Modifier" />
+                <Button fx:id="btnsuppV" layoutX="307.0" layoutY="18.0" minWidth="4.0" mnemonicParsing="false" onAction="#deleteBeneficiaire" prefHeight="40.0" prefWidth="218.0" text="Supprimer" />
+            </buttons>
+        </ButtonBar>
+        <TextField fx:id="searchField" layoutX="723.0" layoutY="75.0" styleClass="searchField" stylesheets="@style2.css" />
+      <Text layoutX="648.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" />
+    </children>
+   <stylesheets>
+      <URL value="@style2.css" />
+      <URL value="@style2.css" />
+   </stylesheets>
+</AnchorPane>
