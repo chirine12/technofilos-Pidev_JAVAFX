@@ -5,7 +5,7 @@ import com.twilio.type.PhoneNumber;
 public class SMSService {
     // Remplacez par vos clés d'API Twilio
     public static final String ACCOUNT_SID = "ACe7fe7b5e1babf7da07a4e2966d1ad5af";
-    public static final String AUTH_TOKEN = "b7f4ca2ba8643f85186c365a7a6761a1";
+    public static final String AUTH_TOKEN = "d681523f3c3083ac37d95883e348a51d";
 
     static {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
