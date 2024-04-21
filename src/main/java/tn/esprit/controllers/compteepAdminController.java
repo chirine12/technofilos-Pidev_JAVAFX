@@ -52,6 +52,7 @@ public class compteepAdminController implements Initializable {
     private Button btnCreer;
     @FXML
     private Button btnModifier;
+    @FXML
     private Button statButton;
     @FXML
     private Button btnSupprimer;
@@ -67,19 +68,38 @@ public class compteepAdminController implements Initializable {
     TypetauxService typeTauxService = new TypetauxService();
 
 
+    @FXML
+    private Button btndemandes;
+
+
+    @FXML
+    private Button btntypetaux;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         compteepService = new CompteepService();
-        initializeColumns(); // Initialise les colonnes de la table
-        loadData(); // Charge les données dans la table
+        initializeColumns();
+        loadData();
+
+        // Initially disable the description field
+        tDescription.setDisable(true);
+
+        // Add listener to the table's selected item property
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            // Check if a new row is selected
             if (newSelection != null) {
-                // Afficher les données de l'élément sélectionné dans les champs de saisie
+                // Set the text from the selected item's description
                 tDescription.setText(newSelection.getDescription());
+                // Enable the description field for editing
+                tDescription.setDisable(false);
+            } else {
+                // Clear the text and disable the field if no row is selected
+                tDescription.setText("");
+                tDescription.setDisable(true);
             }
         });
     }
+
 
 
     private void initializeColumns() {
@@ -175,7 +195,27 @@ public class compteepAdminController implements Initializable {
             showAlertWithWarning("No account selected", "Please select an account to disable.");
         }
     }
+    @FXML
 
+    void activerCompteep(ActionEvent event) {
+        // Récupérer l'élément sélectionné dans la table
+        Compteep selectedCompteep = table.getSelectionModel().getSelectedItem();
+        if (selectedCompteep != null) {
+            try {
+                // Mettre à jour l'état du compte dans la base de données en utilisant son ID
+                selectedCompteep.setEtat(true); // Mettre à jour l'état dans l'objet Compteep
+                compteepService.update(selectedCompteep); // Mettre à jour l'état dans la base de données
+
+                // Rafraîchir la vue de la table
+                table.refresh();
+            } catch (SQLException e) {
+                showAlertWithError("Error disabling account", e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            showAlertWithWarning("No account selected", "Please select an account to disable.");
+        }
+    }
 
     @FXML
     private void voirstat(ActionEvent event) {
@@ -198,6 +238,36 @@ public class compteepAdminController implements Initializable {
         }
     }
 
+    @FXML
+    private void pagedemandes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/acceptdemande.fxml"));
+            Parent root = loader.load();
 
+            // Get the current window or create a new stage if necessary
+            Stage stage = (Stage) btndemandes.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load the demands page.");
+        }
+    }
+
+    @FXML
+    private void pagetypetaux() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/typetaux.fxml"));
+            Parent root = loader.load();
+
+            // Get the current window or create a new stage if necessary
+            Stage stage = (Stage) btntypetaux.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load the demands page.");
+        }
+    }
 
 }

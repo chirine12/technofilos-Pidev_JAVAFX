@@ -28,7 +28,7 @@ public class ClientCompteepService  implements ICRUD<Compteep>  {
         statement.setString(5, compteep.getDescription());
         statement.setBoolean(6, compteep.getEtat());
         statement.setInt(7, compteep.getTypeTauxId()); // Assurez-vous que le typeTauxId est correctement passé
-        statement.setInt(8, 2); // client_id = 2
+        statement.setInt(8, 1); // client_id = 2
 
         int affectedRows = statement.executeUpdate();
         if (affectedRows == 0) {
@@ -119,27 +119,6 @@ public class ClientCompteepService  implements ICRUD<Compteep>  {
 
 
 
-    public Compteep readCompteep(int compteepId) throws SQLException {
-            String sql = "SELECT * FROM Compteep WHERE id = ?";
-            PreparedStatement statement = cnx.prepareStatement(sql);
-            statement.setInt(1, compteepId);
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                Compteep compteep = new Compteep();
-
-                compteep.setRib(resultSet.getLong("rib"));
-                compteep.setSolde(resultSet.getDouble("solde"));
-                compteep.setType(resultSet.getString("type"));
-                compteep.setDateouv(resultSet.getDate("dateouv"));
-                compteep.setDescription(resultSet.getString("description"));
-                compteep.setEtat(resultSet.getBoolean("etat"));
-                return compteep;
-            } else {
-                // Compteep with the given ID not found
-                return null;
-            }
-        }
 
 
         public boolean validateDescription(String description) {

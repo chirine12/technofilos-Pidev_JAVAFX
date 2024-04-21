@@ -43,7 +43,7 @@
 .form_container Button{
     -fx-background-color: linear-gradient(to right, #620c70, #91017e); /* Maintien du dégradé */
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 3, 0, 0, 3); /* Ombre avec transparence pour un effet plus doux */
-    -fx-pref-width: 100%;
+    -fx-pref-width: 450%;
     -fx-font-size: 1.0em;
     -fx-font-family: "Calibri Light";
     -fx-text-fill: #FFFFFF;

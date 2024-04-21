@@ -3,15 +3,20 @@ package tn.esprit.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import tn.esprit.model.Compteep;
 import tn.esprit.model.TypeTaux;
 import tn.esprit.service.CompteepService;
 import tn.esprit.service.TypetauxService;
 import tn.esprit.utils.SQLConnector;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,6 +46,9 @@ public class typetaux implements Initializable {
 
     private TypetauxService typetauxService;
     private ObservableList<TypeTaux> typetauxData = FXCollections.observableArrayList();
+    @FXML
+    private Button btnretour;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -200,5 +208,20 @@ public class typetaux implements Initializable {
         }
     }
 
+    @FXML
+    private void admindashbordpage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
+            Parent root = loader.load();
+
+            // Get the current window or create a new stage if necessary
+            Stage stage = (Stage) btnretour.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load the demands page.");
+        }
+    }
 
 }

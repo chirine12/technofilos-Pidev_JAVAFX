@@ -57,4 +57,15 @@ public class demande_desac_ce {
                 ", raison='" + raison + '\'' +
                 '}';
     }
+
+    private String rib; // Variable membre pour stocker le RIB
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
+    }
+
 }

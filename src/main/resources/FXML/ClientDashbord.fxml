@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="438.0" prefWidth="724.0" styleClass="form_container" stylesheets="@../CSS/styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ComptepClientController">
     <children>
-        <VBox fx:id="tType" layoutX="14.0" layoutY="48.0" prefHeight="308.0" prefWidth="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="48.0">
+        <VBox fx:id="tType" layoutX="14.0" layoutY="68.0" prefHeight="270.0" prefWidth="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="68.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="type de compte " />
                 <ComboBox fx:id="cmbType" prefHeight="25.0" prefWidth="273.0" styleClass="ComboBox" />
@@ -32,16 +32,12 @@
             </columns>
         </TableView>
         <Label layoutX="228.0" layoutY="14.0" styleClass="title" text=" COMPTE EPARGNE" />
-        <ButtonBar layoutX="192.0" layoutY="362.0" prefHeight="38.0" prefWidth="340.0">
+        <ButtonBar layoutX="99.0" layoutY="362.0" prefHeight="38.0" prefWidth="443.0">
             <buttons>
                 <Button fx:id="btnCreer" mnemonicParsing="false" onAction="#createCompteep" text="creer" />
                 <Button fx:id="btnModifier" layoutX="370.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyCompteep" text="modifier" />
-            <Button fx:id="btnDesactiver"
-                    layoutX="282.0" layoutY="17.0"
-                    mnemonicParsing="false"
-                    onAction="#onDisableAccountClicked"
-                    stylesheets="@../CSS/styles2.css"
-                    text="Desactiver"/>
+            <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#onDisableAccountClicked" stylesheets="@../CSS/styles2.css" text="Desactiver" />
+            <Button fx:id="btndemandes" layoutX="275.0" layoutY="18.0" mnemonicParsing="false" onAction="#pagedemandes" prefHeight="22.0" prefWidth="221.0" stylesheets="@../CSS/styles2.css" text="voir mes demandes" />
             </buttons>
         </ButtonBar>
     </children>

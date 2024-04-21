@@ -2,19 +2,22 @@ package tn.esprit.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
-import tn.esprit.model.TypeTaux;
+import javafx.stage.Stage;
 import tn.esprit.model.demande_desac_ce;
 import tn.esprit.service.SMSService;
-import tn.esprit.service.TypetauxService;
 import tn.esprit.service.demandesService;
 import tn.esprit.utils.SQLConnector;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,12 +25,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class demandesConroller implements Initializable {
+public class demandesController implements Initializable {
     @FXML
     private TableView table;
 
+
+
     @FXML
-    private TableColumn idCompteColumn;
+    private TableColumn ribColumn;
+
 
     @FXML
     private TableColumn raison;
@@ -37,6 +43,8 @@ public class demandesConroller implements Initializable {
 
     @FXML
     private Button btnrefuser;
+    @FXML
+    private Button btnretour;
     @FXML
     private  demandesService demandesService;
     private ObservableList<demande_desac_ce> demandesData = FXCollections.observableArrayList();
@@ -129,13 +137,13 @@ public class demandesConroller implements Initializable {
         loadData(); // Charge les données dans la table
 
     }
+
     private void initializeColumns() {
-        // Initialise les colonnes de la table en associant chaque colonne à une propriété du modèle Compteep
-        idCompteColumn.setCellValueFactory(new PropertyValueFactory<>("compteepId"));
+        // Change from idCompteColumn to ribColumn and bind it to the RIB property
+        ribColumn.setCellValueFactory(new PropertyValueFactory<>("rib"));
         raison.setCellValueFactory(new PropertyValueFactory<>("raison"));
-
-
     }
+
 
     private void loadData() {
         try {
@@ -146,6 +154,22 @@ public class demandesConroller implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
             // Gérer l'exception selon les besoins, par exemple, afficher un message d'erreur
+        }
+    }
+
+    @FXML
+    private void admindashbordpage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
+            Parent root = loader.load();
+
+            // Get the current window or create a new stage if necessary
+            Stage stage = (Stage) btnretour.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load the demands page.");
         }
     }
 }

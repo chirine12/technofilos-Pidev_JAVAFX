@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class CompteepService implements ICRUD<Compteep> {
+public class CompteepService  {
     private Connection cnx;
 
     public CompteepService() {
@@ -18,35 +18,9 @@ public class CompteepService implements ICRUD<Compteep> {
     }
 
 
-    @Override
-    public void create(Compteep compteep) throws SQLException, SQLIntegrityConstraintViolationException {
-        String sql = "INSERT INTO Compteep (rib, solde, type, dateouv, description, etat, typetaux_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-        statement.setLong(1, compteep.getRib());
-        statement.setDouble(2, compteep.getSolde());
-        statement.setString(3, compteep.getType());
-        statement.setDate(4, compteep.getDateouv());
-        statement.setString(5, compteep.getDescription());
-        statement.setBoolean(6, compteep.getEtat());
-        statement.setInt(7, compteep.getTypeTauxId()); // Assurez-vous que le typeTauxId est correctement passé
-
-        int affectedRows = statement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Creating compteep failed, no rows affected.");
-        }
-
-        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                compteep.setId(generatedKeys.getInt(1));
-            } else {
-                throw new SQLException("Creating compteep failed, no ID obtained.");
-            }
-        }
-    }
 
 
-    @Override
+
     public void update(Compteep compteep) throws SQLException {
         String sql = "UPDATE Compteep SET rib = ?, solde = ?, type = ?, dateouv = ?, description = ?, etat = ? WHERE id = ?";
         PreparedStatement ps = null;
@@ -67,16 +41,8 @@ public class CompteepService implements ICRUD<Compteep> {
         }
     }
 
-    @Override
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM Compteep WHERE id = ?";
-        try (PreparedStatement preparedStatement = cnx.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        }
-    }
 
-    @Override
+
     public List<Compteep> read() throws SQLException {
         String sql = "SELECT * FROM Compteep";
         Statement statement = cnx.createStatement();
@@ -96,27 +62,7 @@ public class CompteepService implements ICRUD<Compteep> {
         return compteeps;
     }
 
-    public Compteep readCompteep(int compteepId) throws SQLException {
-        String sql = "SELECT * FROM Compteep WHERE id = ?";
-        PreparedStatement statement = cnx.prepareStatement(sql);
-        statement.setInt(1, compteepId);
 
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            Compteep compteep = new Compteep();
-
-            compteep.setRib(resultSet.getLong("rib"));
-            compteep.setSolde(resultSet.getDouble("solde"));
-            compteep.setType(resultSet.getString("type"));
-            compteep.setDateouv(resultSet.getDate("dateouv"));
-            compteep.setDescription(resultSet.getString("description"));
-            compteep.setEtat(resultSet.getBoolean("etat"));
-            return compteep;
-        } else {
-            // Compteep with the given ID not found
-            return null;
-        }
-    }
 
 
     public boolean validateDescription(String description) {

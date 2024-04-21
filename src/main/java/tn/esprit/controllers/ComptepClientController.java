@@ -4,9 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import tn.esprit.model.Compteep;
 import tn.esprit.model.demande_desac_ce;
 import tn.esprit.service.ClientCompteepService;
@@ -14,6 +18,7 @@ import tn.esprit.service.CompteepService;
 import tn.esprit.service.TypetauxService;
 import tn.esprit.utils.SQLConnector;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
@@ -38,15 +43,7 @@ public class ComptepClientController  implements Initializable {
         @FXML
         private TableColumn<Compteep, String> descriptionColumn;
 
-        @FXML
-        private TableColumn<Compteep, Boolean> etatColumn;
 
-        @FXML
-        private Button btnCreer;
-        @FXML
-        private Button btnModifier;
-        @FXML
-        private Button btnSupprimer;
         @FXML
         private TextField tDescription;
         @FXML
@@ -59,7 +56,8 @@ public class ComptepClientController  implements Initializable {
         TypetauxService typeTauxService = new TypetauxService();
 
 
-
+    @FXML
+    private Button btndemandes;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ClientCompteepService = new ClientCompteepService();
@@ -156,7 +154,7 @@ public class ComptepClientController  implements Initializable {
             }
 
             try {
-                int typeId = typeTauxService.findIdByType(selectedType); // Assurez-vous que cette méthode existe et fonctionne correctement
+                int typeId = typeTauxService.findIdByType(selectedType);
                 Long rib = generateRandomRib();
                 java.util.Date utilDate = Calendar.getInstance().getTime();
                 java.sql.Date dateOuverture = new java.sql.Date(utilDate.getTime());
@@ -252,8 +250,21 @@ public class ComptepClientController  implements Initializable {
         result.ifPresent(raison -> createDesactivationRequest(compteepId, raison));
     }
 
+    @FXML
+    private void pagedemandes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/affichagedemande.fxml"));
+            Parent root = loader.load();
 
-
+            // Get the current window or create a new stage if necessary
+            Stage stage = (Stage) btndemandes.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to load the demands page.");
+        }
+    }
 
     private void createDesactivationRequest(long compteepId, String raison) {
         System.out.println("Création de la demande de désactivation pour le compte ID: " + compteepId + " avec la raison: " + raison);

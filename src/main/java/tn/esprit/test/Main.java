@@ -16,7 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/acceptdemande.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/admindashbord.fxml"));
         Scene scene = new Scene(root);
         stage.setTitle("Comptes Epargnes");
         stage.setScene(scene);

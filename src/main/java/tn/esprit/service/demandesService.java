@@ -30,19 +30,40 @@ public class demandesService  {
 
     public List<demande_desac_ce> read() throws SQLException {
         List<demande_desac_ce> demande_desac_ceList = new ArrayList<>();
-        String sql = "SELECT id, compteep_id, raison FROM demande_desac_ce"; // Ajout de l'ID de la demande dans la requête SQL
+        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib " +
+                "FROM demande_desac_ce d " +
+                "JOIN compteep c ON d.compteep_id = c.id";
         try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
-                demande_desac_ce demande_desac_ce = new demande_desac_ce();
-                demande_desac_ce.setId(resultSet.getInt("id")); // Récupération de l'ID de la demande
-                demande_desac_ce.setCompteepId(resultSet.getLong("compteep_id"));
-                demande_desac_ce.setRaison(resultSet.getString("raison"));
-
-                demande_desac_ceList.add(demande_desac_ce);
+                demande_desac_ce demande = new demande_desac_ce();
+                demande.setId(resultSet.getInt("id"));
+                demande.setCompteepId(resultSet.getLong("compteep_id"));
+                demande.setRaison(resultSet.getString("raison"));
+                demande.setRib(resultSet.getString("rib")); // Add this line to fetch the RIB
+                demande_desac_ceList.add(demande);
             }
         }
         return demande_desac_ceList;
     }
+
+    public List<demande_desac_ce> readSpecificClient() throws SQLException {
+        List<demande_desac_ce> demande_desac_ceList = new ArrayList<>();
+        // Ajoutez une jointure avec la table compteep pour récupérer le RIB
+        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib FROM demande_desac_ce d JOIN compteep c ON d.compteep_id = c.id WHERE d.client_id = 1";
+        try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                demande_desac_ce demande = new demande_desac_ce();
+                demande.setId(resultSet.getInt("id"));
+                demande.setCompteepId(resultSet.getLong("compteep_id"));
+                demande.setRaison(resultSet.getString("raison"));
+                demande.setRib(resultSet.getString("rib")); // Récupérez le RIB depuis le ResultSet
+
+                demande_desac_ceList.add(demande);
+            }
+        }
+        return demande_desac_ceList;
+    }
+
 
 
 }
