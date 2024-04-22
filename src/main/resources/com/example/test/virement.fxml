@@ -26,7 +26,7 @@
         </VBox>
         <TableView fx:id="tablevirement" layoutX="458.0" layoutY="160.0" prefHeight="258.0" prefWidth="614.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="120.0">
             <columns>
-                <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
+
                 <TableColumn fx:id="srcCol" prefWidth="133.0" text="Source" />
                 <TableColumn fx:id="destCol" prefWidth="115.0" text="Destinataire" />
                 <TableColumn fx:id="montantCol" prefWidth="103.0" text="Montant" />

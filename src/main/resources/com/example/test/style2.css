@@ -13,7 +13,9 @@
 }
 
 
-
+.button {
+    -fx-background-color: transparent;
+}
 
 .form_container Text{
     -fx-font-size: 1.2em;

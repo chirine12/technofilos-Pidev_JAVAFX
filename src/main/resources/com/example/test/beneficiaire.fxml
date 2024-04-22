@@ -44,6 +44,11 @@
         </ButtonBar>
         <TextField fx:id="searchField" layoutX="723.0" layoutY="75.0" styleClass="searchField" stylesheets="@style2.css" />
       <Text layoutX="648.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" />
+      <ButtonBar layoutX="-15.0" layoutY="630.0" prefHeight="40.0" prefWidth="101.0">
+        <buttons>
+            <Button fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="0.0" mnemonicParsing="false" onAction="#pagevirementclient" prefHeight="40.0" prefWidth="115.0" text="Virement" />
+        </buttons>
+      </ButtonBar>
     </children>
    <stylesheets>
       <URL value="@style2.css" />

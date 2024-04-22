@@ -3,7 +3,7 @@ package com.example.test.service;
 import com.example.test.model.Virement;
 import com.example.test.utils.SQLConnector;
 
-import java.sql.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,41 +13,34 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
+
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.layout.property.UnitValue;
-import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.layout.property.UnitValue;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
-import java.io.FileNotFoundException;
+
+
 import java.net.MalformedURLException;
-import java.net.MalformedURLException;
 
 
-import com.example.test.model.Virement;
-import com.example.test.utils.SQLConnector;
-import javafx.scene.paint.Color;
 
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
     public class VirementClientService implements ICRUD <Virement> {
         private Connection cnx;
@@ -341,9 +334,66 @@ import java.util.List;
                 e.printStackTrace();
             }
         }
-        public Connection getCnx() {
-            return cnx;
+
+
+        public void start(Stage primaryStage) {
+            WebView webView = new WebView();
+            webView.getEngine().load(getClass().getResource("com/example/test/recaptcha.html").toExternalForm());
+
+            Scene scene = new Scene(webView, 800, 600);
+            primaryStage.setTitle("Google reCAPTCHA dans JavaFX");
+            primaryStage.setScene(scene);
+            primaryStage.show();
         }
-    }
+
+
+        public boolean verifyRecaptcha(String gRecaptchaResponse) {
+            // Remplacez 'votre_clé_secrète' par votre clé secrète obtenue de Google reCAPTCHA
+            String secretKey = "6Lek_8ApAAAAAFENG9lBqbXX821RP01bIruxpVbV";
+            HttpClient client = HttpClient.newHttpClient();
+            String url = "https://www.google.com/recaptcha/api/siteverify";
+
+            // Préparation des paramètres de la requête
+            String params = "secret=" + URLEncoder.encode(secretKey, StandardCharsets.UTF_8) +
+                    "&response=" + URLEncoder.encode(gRecaptchaResponse, StandardCharsets.UTF_8);
+
+            // Créer une requête POST
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .POST(HttpRequest.BodyPublishers.ofString(params))
+                    .build();
+
+            try {
+                // Envoyer la requête
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                // La réponse de Google est au format JSON, vous pouvez utiliser une bibliothèque JSON pour parser la réponse
+                String json = response.body();
+                // Exemple basique de vérification si succès sans une bibliothèque JSON :
+                return json.contains("\"success\": true");
+            } catch (IOException | InterruptedException e) {
+                System.err.println("Error during reCAPTCHA verification: " + e.getMessage());
+                return false;
+            }
+        }
+        public List<Long> getRibs() {
+            List<Long> ribs = new ArrayList<>();
+            try (
+                 PreparedStatement ps = cnx.prepareStatement("SELECT rib FROM beneficiaire");
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    ribs.add(rs.getLong("rib"));
+                }
+            } catch (SQLException e) {
+                System.err.println("Erreur lors de la récupération des RIBs : " + e.getMessage());
+                e.printStackTrace();
+            }
+            return ribs;
+        }
+        }
+
+
 
 

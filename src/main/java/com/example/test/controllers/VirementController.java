@@ -56,6 +56,11 @@ public class VirementController {
     void createVirement() {
         // Récupérer les valeurs depuis l'interface utilisateur
         String motif = tmotif.getText().trim(); // Assurez-vous d'avoir un TextField pour le motif
+        if (motif.length() > 20) {
+            showAlertWithError("Erreur de Validation", "Le motif ne peut pas dépasser 20 caractères.");
+            return;
+        }
+
         String montantStr = tmontant.getText().replace(",", "."); // Pour le montant, supposant que vous avez un TextField
         String sourceStr = tsource.getText(); // Pour la source, supposant que vous avez un TextField
         String destinataireStr = tdestinataire.getText(); // Pour le destinataire
@@ -111,30 +116,7 @@ public class VirementController {
         }
     }
 
-
-
-        /*try {
-            Virement newVirement = new Virement();
-            newVirement.setSource(Long.parseLong(tsource.getText()));
-            newVirement.setDestinataire(Long.parseLong(tdestinataire.getText()));
-            newVirement.setMontant(Float.parseFloat(tmontant.getText()));
-            newVirement.setMotif(tmotif.getText());
-            // Conversion de la date du DatePicker en java.util.Date puis en java.sql.Date
-            if (tdate.getValue() != null) {
-                Date date = dateFormat.parse(tdate.getValue().toString());
-                newVirement.setDate(new java.sql.Date(date.getTime()));
-            }
-            virementService.create(newVirement);
-            refreshTableView();
-            clearFields();
-            errorMessage.setText("Virement créé avec succès.");
-        } catch (Exception e) {
-            errorMessage.setText("Erreur lors de la création du virement: " + e.getMessage());
-            e.printStackTrace();
-        }*/
-
-
-            @FXML
+    @FXML
             void deleteVirement (ActionEvent event){
                 Virement selectedVirement = tablevirement.getSelectionModel().getSelectedItem();
                 if (selectedVirement != null) {
@@ -151,35 +133,68 @@ public class VirementController {
                 }
             }
 
-            @FXML
-            void updateVirement (ActionEvent event) throws SQLException {
-                Virement selectedVirement = tablevirement.getSelectionModel().getSelectedItem();
-                if (selectedVirement != null) {
+    @FXML
+    void updateVirement(ActionEvent event) {
+        Virement selectedVirement = tablevirement.getSelectionModel().getSelectedItem();
+        if (selectedVirement == null) {
+            System.out.println("Sélectionnez un virement à mettre à jour.");
+            return;
+        }
 
-                    // Essayez de parser les valeurs numériques et attrapez NumberFormatException si nécessaire
-                    selectedVirement.setSource(Long.parseLong(tsource.getText()));
-                    selectedVirement.setDestinataire(Long.parseLong(tdestinataire.getText()));
-                    // Remplacez les virgules par des points pour gérer les formats numériques avec virgules
-                    String montantStr = tmontant.getText().replace(",", ".");
-                    selectedVirement.setMontant(Float.parseFloat(montantStr));
+        String motif = tmotif.getText().trim();
+        if (motif.isEmpty() || motif.length() > 20) {
+            showAlertWithError("Erreur de Validation", "Le motif ne peut pas être vide et doit contenir au maximum 20 caractères.");
+            return;
+        }
 
-                    selectedVirement.setMotif(tmotif.getText());
-                    // Convertissez directement la valeur de DatePicker en LocalDate
-
-                    // Appel à virementService pour mettre à jour le virement dans la base de données
-                    virementService.update(selectedVirement);
-
-                    refreshTableView(); // Rafraîchir l'affichage
-                    clearFields(); // Effacer les champs du formulaire
-                    System.out.println("Virement mis à jour avec succès.");
-
-                } else {
-                    System.out.println("Sélectionnez un virement à mettre à jour.");
-                }
+        String montantStr = tmontant.getText().replace(",", ".");
+        float montant;
+        try {
+            montant = Float.parseFloat(montantStr);
+            if (montant <= 0) {
+                showAlertWithError("Erreur de Validation", "Le montant doit être positif.");
+                return;
             }
+        } catch (NumberFormatException e) {
+            showAlertWithError("Erreur de Validation", "Le format du montant est invalide.");
+            return;
+        }
+
+        String sourceStr = tsource.getText();
+        if (!sourceStr.matches("\\d{11}")) {
+            showAlertWithError("Erreur de Validation", "La source doit être composée de 11 chiffres exactement.");
+            return;
+        }
+        long source = Long.parseLong(sourceStr);
+
+        String destinataireStr = tdestinataire.getText();
+        if (!destinataireStr.matches("\\d{11}")) {
+            showAlertWithError("Erreur de Validation", "Le destinataire doit être composé de 11 chiffres exactement.");
+            return;
+        }
+        long destinataire = Long.parseLong(destinataireStr);
+
+        // Mettre à jour les données du virement sélectionné
+        selectedVirement.setSource(source);
+        selectedVirement.setDestinataire(destinataire);
+        selectedVirement.setMontant(montant);
+        selectedVirement.setMotif(motif);
+
+        // Tenter de mettre à jour le virement dans la base de données
+        try {
+            virementService.update(selectedVirement);
+            refreshTableView(); // Rafraîchir l'affichage
+            clearFields(); // Effacer les champs du formulaire
+            System.out.println("Virement mis à jour avec succès.");
+        } catch (SQLException e) {
+            showAlertWithError("Erreur SQL", "Erreur SQL lors de la mise à jour du virement : " + e.getMessage());
+        } catch (Exception e) {
+            showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
+        }
+    }
 
 
-            private void populateFields (Virement virement){
+    private void populateFields (Virement virement){
                 tsource.setText(String.valueOf(virement.getSource()));
                 tdestinataire.setText(String.valueOf(virement.getDestinataire()));
                 tmontant.setText(String.format("%.2f", virement.getMontant()));
@@ -204,7 +219,7 @@ public class VirementController {
                 // Assurez-vous que le type générique de TableColumn correspond à <Virement, TypeDeLaPropriété>
                 // Par exemple, pour idCol qui pourrait être un Integer, la déclaration pourrait ressembler à TableColumn<Virement, Integer>
 
-                this.idCol.setCellValueFactory(new PropertyValueFactory<Virement, Integer>("id"));
+               // this.idCol.setCellValueFactory(new PropertyValueFactory<Virement, Integer>("id"));
                 this.srcCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("source"));
                 this.destCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("destinataire"));
                 this.montantCol.setCellValueFactory(new PropertyValueFactory<Virement, Float>("montant"));

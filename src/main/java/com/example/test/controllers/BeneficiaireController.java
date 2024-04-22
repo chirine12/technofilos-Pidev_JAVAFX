@@ -1,13 +1,19 @@
 package com.example.test.controllers;
 
+import com.itextpdf.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.example.test.model.Beneficiaire;
 import com.example.test.service.BeneficiaireService;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -16,8 +22,8 @@ import java.util.stream.Collectors;
 
 public class BeneficiaireController {
 
-    @FXML
-    private Button btncreateV, btnmodifV, btnsuppV;
+
+
     @FXML
     private TableView<Beneficiaire> tableBeneficiaire;
 
@@ -43,9 +49,14 @@ public class BeneficiaireController {
         String prenom = tPrenom.getText().trim();
         String ribStr = tRib.getText().trim();
 
-        // Vérification que le nom et le prénom ne sont pas vides
-        if (nom.isEmpty() || prenom.isEmpty()) {
-            showAlert("Erreur de Validation", "Le nom et le prénom sont obligatoires.", Alert.AlertType.ERROR);
+        // Vérification que le nom et le prénom contiennent uniquement des lettres et ne sont pas vides
+        if (!nom.matches("[a-zA-Zéèêëîïôöàâäûüç' ]+") || nom.isEmpty()) {
+            showAlert("Erreur de Validation", "Le nom doit être composé uniquement de lettres et ne peut être vide.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (!prenom.matches("[a-zA-Zéèêëîïôöàâäûüç' ]+") || prenom.isEmpty()) {
+            showAlert("Erreur de Validation", "Le prénom doit être composé uniquement de lettres et ne peut être vide.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -80,8 +91,6 @@ public class BeneficiaireController {
 
 
 
-
-
     @FXML
     void deleteBeneficiaire(ActionEvent event) {
         Beneficiaire selected = tableBeneficiaire.getSelectionModel().getSelectedItem();
@@ -111,8 +120,21 @@ public class BeneficiaireController {
         String prenom = tPrenom.getText().trim();
         String ribStr = tRib.getText().trim();
 
-        if (nom.isEmpty() || prenom.isEmpty() || ribStr.isEmpty()) {
-            showAlert("Erreur", "Les champs ne peuvent pas être vides.", Alert.AlertType.ERROR);
+        // Validation du nom
+        if (!nom.matches("[a-zA-Zéèêëîïôöàâäûüç' ]+") || nom.isEmpty()) {
+            showAlert("Erreur de Validation", "Le nom doit être composé uniquement de lettres et ne peut être vide.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validation du prénom
+        if (!prenom.matches("[a-zA-Zéèêëîïôöàâäûüç' ]+") || prenom.isEmpty()) {
+            showAlert("Erreur de Validation", "Le prénom doit être composé uniquement de lettres et ne peut être vide.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validation du RIB pour qu'il soit composé de 11 chiffres exactement
+        if (!ribStr.matches("\\d{11}")) {
+            showAlert("Erreur de Validation", "Le RIB doit être composé de 11 chiffres.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -137,6 +159,8 @@ public class BeneficiaireController {
             showAlert("Erreur SQL", "Une erreur est survenue lors de la mise à jour : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
+
 
     @FXML
     void initialize() {
@@ -204,5 +228,25 @@ public class BeneficiaireController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void pagevirementclient(ActionEvent event) {
+        try {
+            // Charge la nouvelle vue FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/test/virementclient.fxml"));
+            Parent root = loader.load();
+
+            // Obtient la scène actuelle et définit le nouveau contenu de la scène
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }  catch (IOException e) {
+            System.err.println("Erreur lors du chargement du FXML : " + e.getMessage());
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

@@ -7,7 +7,7 @@ public class      SQLConnector {
     private final String URL = "jdbc:mysql://localhost:3306/ebank";
     private final String USER = "root";
     private final String PASS = "";
-    private Connection connection;
+    private Connection connection; 
 
     private static SQLConnector instance;
 
