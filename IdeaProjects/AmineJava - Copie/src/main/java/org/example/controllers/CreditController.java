@@ -8,11 +8,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.models.Credit;
 import org.example.services.CreditService;
+import org.example.models.TypeCredit;
+import org.example.services.TypeCreditservice;
+import org.example.utils.DBConnection;
 
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 public class CreditController {
@@ -34,8 +37,6 @@ public class CreditController {
     @FXML
     private TableColumn<Credit, Integer> MontantCol;
 
-    @FXML
-    private TableColumn<Credit, Integer> idCol;
 
     @FXML
     private TableColumn<Credit, Integer> DureeCol;
@@ -49,7 +50,9 @@ public class CreditController {
     @FXML
     private TableColumn<Credit, Date> DatefinCol;
     @FXML
-    private TextField typeid, montantid, payementid, dureeid;
+    private ComboBox<String> typeid;
+    @FXML
+    private TextField  montantid, payementid, dureeid;
     @FXML
     private DatePicker datedebid,datefinid; // Utilisation d'un DatePicker pour la sélection de date
     @FXML
@@ -57,18 +60,18 @@ public class CreditController {
 
 
     private final CreditService creditService = new CreditService();
+    private final TypeCreditservice typecreditService = new TypeCreditservice();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @FXML
     void createCredit() {
         // Récupérer les valeurs depuis l'interface utilisateur
-        String type = typeid.getText().trim(); // Assurez-vous d'avoir un TextField pour le motif
+        String type = typeid.getValue(); // Assurez-vous d'avoir un TextField pour le motif
         String montantText = montantid.getText().trim();
         String payementText = payementid.getText().trim();
         String dureeText = dureeid.getText().trim();
-
         // Vérifier que les champs ne sont pas vides
-        if (type.isEmpty() || montantText.isEmpty() || payementText.isEmpty() || dureeText.isEmpty()) {
+        if ( montantText.isEmpty() ||  dureeText.isEmpty()) {
             showAlertWithError("Erreur de saisie", "Veuillez remplir tous les champs.");
             return;
         }
@@ -83,20 +86,10 @@ public class CreditController {
         Integer montant = Integer.parseInt(montantText);
         Integer duree = Integer.parseInt(dureeText);
 
-        // Vérifier que type contient uniquement des caractères
-        if (!type.matches("[a-zA-Z]+")) {
-            showAlertWithError("Erreur de saisie", "Le type doit contenir uniquement des caractères alphabétiques.");
-            return;
-        }
+
 
         // Vérifier que payement contient un nombre réel
-        Float payement;
-        try {
-            payement = Float.parseFloat(payementText);
-        } catch (NumberFormatException e) {
-            showAlertWithError("Erreur de saisie", "Le paiement doit être un nombre réel.");
-            return;
-        }
+
 
         // Récupérer la date de début
         LocalDate datedebValue = datedebid.getValue();
@@ -113,26 +106,35 @@ public class CreditController {
         Date datefin = new Date(c.getTimeInMillis());
 
         try {
-            // Création de l'instance de Credit et ajout via le service
-            Credit credit = new Credit(type, montant, payement, duree, datedeb, datefin);
-            creditService.create(credit);
-            System.out.println("Nouveau crédit ajouté avec succès !");
-            // Réinitialiser les champs de l'interface utilisateur
-            typeid.clear();
-            montantid.clear();
-            payementid.clear();
-            dureeid.clear();
-            datedebid.setValue(null); // Réinitialiser la date de début
-            refreshTableView();
+            int selectedTypeCredit = typecreditService.findTypeCreditByName(type);
+            if (selectedTypeCredit != -1) {
+                float taux = typecreditService.findTauxById(selectedTypeCredit);
+                float paiement = calculateMonthlyPayment(montant, taux, duree);
+                payementid.setText(String.format("%.2f", paiement));
+                // Création de l'instance de Credit et ajout via le service
+                Credit credit = new Credit(type, montant, paiement, duree, datedeb, datefin, selectedTypeCredit);
+                creditService.create(credit);
+                System.out.println("Nouveau crédit ajouté avec succès !");
+                // Réinitialiser les champs de l'interface utilisateur
+                typeid.setValue(null);
+                montantid.clear();
+                dureeid.clear();
+                datedebid.setValue(null); // Réinitialiser la date de début
+                refreshTableView();
+            } else {
+                // Afficher un message d'erreur à l'utilisateur
+                System.out.println("Le type de crédit sélectionné n'existe pas. Veuillez sélectionner un autre type de crédit.");
+                showAlertWithError("Type de crédit non trouvé", "Le type de crédit sélectionné n'existe pas. Veuillez sélectionner un autre type de crédit.");
+            }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
-            alert.setContentText("Vous avez une erreur dans la saisie de vos données!");
+            alert.setContentText("Erreur SQL lors de la création du crédit ");
             alert.show();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
-            alert.setContentText("Vous avez une erreur dans la saisie de vos données!");
+            alert.setContentText("Une erreur inattendue s'est produite");
             alert.show();
         }
     }
@@ -164,14 +166,43 @@ public class CreditController {
         String dureeText = "";
         if (selectedCredit != null) {
              creditId = selectedCredit.getId();
-             type = typeid.getText().trim(); // Assurez-vous d'avoir un TextField pour le motif
+             type = typeid.getValue(); // Assurez-vous d'avoir un TextField pour le motif
              montantText = montantid.getText().trim();
              payementText = payementid.getText().trim();
              dureeText = dureeid.getText().trim();
         }else {
             System.out.println("Sélectionnez un crédit à mettre à jour.");
         }
-        // Effectuer les mêmes validations que dans la méthode createCredit()
+        // Vérifier que les champs ne sont pas vides
+        if (type.isEmpty() || montantText.isEmpty() || payementText.isEmpty() || dureeText.isEmpty()) {
+            showAlertWithError("Erreur de saisie", "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        // Vérifier que montant et duree contiennent uniquement des chiffres
+        if (!montantText.matches("\\d+") || !dureeText.matches("\\d+")) {
+            showAlertWithError("Erreur de saisie", "Montant et durée doivent contenir uniquement des chiffres.");
+            return;
+        }
+
+        // Convertir les valeurs en types appropriés après la validation
+        Integer montant = Integer.parseInt(montantText);
+        Integer duree = Integer.parseInt(dureeText);
+
+        // Vérifier que type contient uniquement des caractères
+        if (!type.matches("[a-zA-Z]+")) {
+            showAlertWithError("Erreur de saisie", "Le type doit contenir uniquement des caractères alphabétiques.");
+            return;
+        }
+
+        // Vérifier que payement contient un nombre réel
+        Float payement;
+        try {
+            payement = Float.parseFloat(payementText);
+        } catch (NumberFormatException e) {
+            showAlertWithError("Erreur de saisie", "Le paiement doit être un nombre réel.");
+            return;
+        }
 
         try {
             // Récupérer le crédit à mettre à jour depuis la base de données
@@ -212,8 +243,15 @@ public class CreditController {
             showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
         }
     }
+    private float calculateMonthlyPayment(int montant, float taux, int duree) {
+        // Calculer le paiement mensuel en utilisant la formule de paiement
+        float tauxMensuel = taux / 100 / 12; // Convertir le taux annuel en taux mensuel
+        int nbEcheances = duree * 12; // Convertir la durée en nombre d'échéances mensuelles
+        float paiement = (float) (montant * tauxMensuel / (1 - Math.pow(1 + tauxMensuel, -nbEcheances)));
+        return paiement;
+    }
     private void populateFields (Credit credit){
-        typeid.setText(credit.getType());
+
         montantid.setText(String.valueOf(credit.getMontant()));
         payementid.setText(String.format("%.2f",credit.getPayement()));
         dureeid.setText(String.valueOf(credit.getDuree()));
@@ -221,6 +259,10 @@ public class CreditController {
     }
     @FXML
     void initialize () {
+        typeid.setOnShowing(event -> {
+            // Remplir la ComboBox avec les types de crédit disponibles
+            populateTypeComboBox();
+        });
         this.TableCredit.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 this.populateFields(newSelection);
@@ -232,24 +274,20 @@ public class CreditController {
         refreshTableView();
     }
     private void configureTableView () {
-        
-
-        this.idCol.setCellValueFactory(new PropertyValueFactory<Credit, Integer>("id"));
-        this.TypeCol.setCellValueFactory(new PropertyValueFactory<Credit, String>("type"));
-        this.MontantCol.setCellValueFactory(new PropertyValueFactory<Credit, Integer>("montant"));
-        this.PayementCol.setCellValueFactory(new PropertyValueFactory<Credit, Float>("payement"));
-        this.DureeCol.setCellValueFactory(new PropertyValueFactory<Credit, Integer>("duree"));
-        this.DatedebCol.setCellValueFactory(new PropertyValueFactory<Credit, Date>("datedeb"));
-        this.DatefinCol.setCellValueFactory(new PropertyValueFactory<Credit, Date>("datefin"));
+        this.TypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        this.MontantCol.setCellValueFactory(new PropertyValueFactory<>("montant"));
+        this.PayementCol.setCellValueFactory(new PropertyValueFactory<>("payement"));
+        this.DureeCol.setCellValueFactory(new PropertyValueFactory<>("duree"));
+        this.DatedebCol.setCellValueFactory(new PropertyValueFactory<>("datedeb"));
+        this.DatefinCol.setCellValueFactory(new PropertyValueFactory<>("datefin"));
     }
     private void clearFields () {
-        typeid.clear();
+        typeid.setValue(null);
         montantid.clear();
         payementid.clear();
         dureeid.clear();
-
-
     }
+
     @FXML
     private void refreshTableView () {
         try {
@@ -266,6 +304,24 @@ public class CreditController {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    private void populateTypeComboBox() {
+        try {
+            // Récupérer les types de crédit depuis la base de données
+            List<TypeCredit> types = typecreditService.read();
+
+            // Créer une liste de noms de types de crédit
+            List<String> typeNames = new ArrayList<>();
+            for (TypeCredit type : types) {
+                typeNames.add(type.getNom());
+            }
+
+            // Ajouter les noms des types de crédit à la ComboBox
+            ObservableList<String> options = FXCollections.observableArrayList(typeNames);
+            typeid.setItems(options);
+        } catch (SQLException e) {
+            showAlertWithError("Erreur", "Erreur lors de la récupération des types de crédit : " + e.getMessage());
+        }
     }
 
 }

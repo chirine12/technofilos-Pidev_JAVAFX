@@ -8,19 +8,13 @@ public class Credit {
     private int duree;
     private Date datedeb;
     private Date datefin;
+    private int typecreditId;
 
-    public Credit() {}
-
-    public Credit(String type, int montant, float payement, int duree, Date datedeb, Date datefin) {
-        this.type = type;
-        this.montant = montant;
-        this.payement = payement;
-        this.duree = duree;
-        this.datedeb = datedeb;
-        this.datefin = datefin;
+    public Credit() {
     }
 
-    public Credit(int id, String type, int montant, float payement, int duree, Date datedeb, Date datefin) {
+    public Credit(int id, String type, int montant, float payement, int duree, Date datedeb, Date datefin, int typecreditId) {
+
         this.id = id;
         this.type = type;
         this.montant = montant;
@@ -28,6 +22,18 @@ public class Credit {
         this.duree = duree;
         this.datedeb = datedeb;
         this.datefin = datefin;
+        this.typecreditId = typecreditId;
+    }
+
+    public Credit(String type, int montant, float payement, int duree, Date datedeb, Date datefin, int typecreditId) {
+
+        this.type = type;
+        this.montant = montant;
+        this.payement = payement;
+        this.duree = duree;
+        this.datedeb = datedeb;
+        this.datefin = datefin;
+        this.typecreditId = typecreditId;
     }
 
     public int getId() {
@@ -84,5 +90,27 @@ public class Credit {
 
     public void setDatefin(Date datefin) {
         this.datefin = datefin;
+    }
+
+    public int getTypecreditId() {
+        return typecreditId;
+    }
+
+    public void setTypecreditId(int typecreditId) {
+        this.typecreditId = typecreditId;
+    }
+
+    @Override
+    public String toString() {
+        return "Credit{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", montant=" + montant +
+                ", payement=" + payement +
+                ", duree=" + duree +
+                ", datedeb=" + datedeb +
+                ", datefin=" + datefin +
+                ", typecreditId=" + typecreditId +
+                '}';
     }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -17,7 +18,7 @@
       <Label layoutX="10.0" layoutY="190.0" text="Duree" />
       <Label layoutX="10.0" layoutY="230.0" text="Datedeb" />
       <Label layoutX="10.0" layoutY="270.0" text="Datefin" />
-      <TextField fx:id="typeid" layoutX="63.0" layoutY="66.0" />
+       <ComboBox fx:id="typeid" layoutX="66.0" layoutY="66.0" prefWidth="150.0" />
       <TextField fx:id="montantid" layoutX="64.0" layoutY="106.0" />
       <TextField fx:id="payementid" layoutX="65.0" layoutY="146.0" />
       <TextField fx:id="dureeid" layoutX="65.0" layoutY="186.0" />
@@ -27,13 +28,14 @@
        <Button fx:id="refreshButton" layoutX="150.0" layoutY="327.0" mnemonicParsing="false" onAction="#refreshTableView" text="Refresh" />
        <TableView fx:id="TableCredit" layoutX="237.0" layoutY="69.0" prefHeight="190.0" prefWidth="514.0">
         <columns>
-            <TableColumn fx:id="idCol" prefWidth="72.79998779296875" text="Id" />
+
           <TableColumn fx:id="TypeCol" prefWidth="75.0" text="Type" />
           <TableColumn fx:id="MontantCol" prefWidth="72.79998779296875" text="Montant" />
             <TableColumn fx:id="PayementCol" prefWidth="72.79998779296875" text="Payement" />
             <TableColumn fx:id="DureeCol" prefWidth="72.79998779296875" text="Duree" />
             <TableColumn fx:id="DatedebCol" prefWidth="72.79998779296875" text="Datedeb" />
             <TableColumn fx:id="DatefinCol" prefWidth="72.79998779296875" text="Datefin" />
+
         </columns>
          <opaqueInsets>
             <Insets />
@@ -41,5 +43,6 @@
       </TableView>
       <Button fx:id="UpdateButton" layoutX="256.0" layoutY="327.0" mnemonicParsing="false" onAction="#updateCredit" text="Update" />
       <Button fx:id="DeleteButton" layoutX="385.0" layoutY="327.0" mnemonicParsing="false" onAction="#deleteCredit" text="Delete" />
+
    </children>
 </AnchorPane>

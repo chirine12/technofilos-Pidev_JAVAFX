@@ -75,4 +75,38 @@ statement.executeUpdate();
         }
 return null;
     }
+    public int findTypeCreditByName(String typeName) throws SQLException {
+        String sql = "SELECT id FROM TypeCredit WHERE nom = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setString(1, typeName);
+          ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+
+                  return rs.getInt("id");
+                }
+                else {
+                    throw new SQLException("Type not found for " + typeName);
+                }
+            }catch (SQLException e) {
+            // Affichage d'un message d'erreur pour débogage
+            System.out.println("Erreur SQL lors de la recherche du type de crédit : " + e.getMessage());
+            // Propagation de l'exception vers l'appelant
+            throw e;
+        }
+
+
+    }
+    public float findTauxById(int typeCreditId) throws SQLException {
+        String sql = "SELECT taux FROM TypeCredit WHERE id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, typeCreditId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("taux");
+                } else {
+                    throw new SQLException("Type de crédit non trouvé pour l'identifiant : " + typeCreditId);
+                }
+            }
+        }
+    }
 }

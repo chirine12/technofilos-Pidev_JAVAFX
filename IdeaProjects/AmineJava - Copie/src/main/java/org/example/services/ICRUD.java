@@ -10,4 +10,6 @@ public interface ICRUD<T> {
     void delete(int id) throws SQLException;
     List<T> read() throws SQLException;
     TypeCredit findById1(int id) throws SQLException;
+    int findTypeCreditByName(String typeName)throws SQLException;
+    float findTauxById(int typeCreditId) throws SQLException;
 }

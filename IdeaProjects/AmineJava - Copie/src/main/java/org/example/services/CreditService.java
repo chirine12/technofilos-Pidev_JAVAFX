@@ -1,6 +1,7 @@
 package org.example.services;
 
 import org.example.models.Credit;
+import org.example.models.TypeCredit;
 import org.example.utils.DBConnection;
 
 import java.sql.*;
@@ -15,7 +16,7 @@ public class CreditService implements CRUD<Credit>{
 
     @Override
     public void create(Credit credit) throws SQLException, java.sql.SQLIntegrityConstraintViolationException {
-        String sql = "INSERT INTO Credit ( `type`, `montant`, `payement`, `duree`, `datedeb`, `datefin`) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Credit ( `type`, `montant`, `payement`, `duree`, `datedeb`, `datefin`, `typecredit_id`) VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement statement = cnx.prepareStatement(sql)) {
             statement.setString(1, credit.getType());
             statement.setInt(2, credit.getMontant());
@@ -23,11 +24,13 @@ public class CreditService implements CRUD<Credit>{
             statement.setInt(4, credit.getDuree());
             statement.setDate(5, credit.getDatedeb());
             statement.setDate(6, credit.getDatefin());
+            statement.setInt(7,credit.getTypecreditId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
             throw e;
         }
+
     }
 
     @Override
@@ -96,6 +99,5 @@ public class CreditService implements CRUD<Credit>{
         }
         return null; // Retourne null si aucun crédit n'est trouvé avec cet identifiant
     }
-
 
 }
