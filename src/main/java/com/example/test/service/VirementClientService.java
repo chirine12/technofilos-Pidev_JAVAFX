@@ -392,7 +392,25 @@ import java.net.MalformedURLException;
             }
             return ribs;
         }
+
+        public String getClientEmailByRib(long destinataireRib) throws SQLException {
+            String sql = "SELECT c.email " +
+                    "FROM Client c " +
+                    "JOIN CompteCourant cc ON c.comptecourant_id = cc.id " +
+                    "WHERE cc.rib = ?";
+            try (PreparedStatement statement = cnx.prepareStatement(sql)) {
+                statement.setLong(1, destinataireRib);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getString("email");
+                    } else {
+                        throw new SQLException("Aucun email trouvé pour ce RIB de destinataire.");
+                    }
+                }
+            }
         }
+
+    }
 
 
 

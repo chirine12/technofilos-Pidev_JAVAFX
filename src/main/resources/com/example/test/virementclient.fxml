@@ -20,7 +20,7 @@
                 <TextField fx:id="tsource" layoutX="100" layoutY="200" text="" />
 
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destinataire" />
-            <ComboBox fx:id="combobenef" prefHeight="33.0" prefWidth="279.0" />
+                <ComboBox fx:id="combobenef" prefHeight="33.0" prefWidth="279.0" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant" />
                 <TextField fx:id="tmontant" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Motif" />
@@ -46,11 +46,11 @@
                 <Button fx:id="downloadPdfButton" onAction="#handleDownloadReport" prefHeight="22.0" prefWidth="200.0" stylesheets="@style2.css" text="Télécharger PDF" />
             </buttons>
         </ButtonBar>
-      <ButtonBar layoutX="-8.0" layoutY="623.0" prefHeight="40.0" prefWidth="94.0">
-        <buttons>
-            <Button fx:id="btnbenef" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pagebeneficiaire" prefHeight="40.0" prefWidth="147.0" text="beneficiaire" />
-        </buttons>
-      </ButtonBar>
+        <ButtonBar layoutX="-8.0" layoutY="623.0" prefHeight="40.0" prefWidth="94.0">
+            <buttons>
+                <Button fx:id="btnbenef" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pagebeneficiaire" prefHeight="40.0" prefWidth="147.0" text="beneficiaire" />
+            </buttons>
+        </ButtonBar>
     </children>
     <stylesheets>
         <URL value="@style2.css" />

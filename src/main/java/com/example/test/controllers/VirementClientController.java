@@ -25,8 +25,12 @@ import java.time.LocalDate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.scene.control.ComboBox;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.Properties;
 
 
 public class VirementClientController {
@@ -74,9 +78,9 @@ public class VirementClientController {
             showAlertWithError("Erreur de Validation", "Le motif ne peut pas dépasser 20 caractères.");
             return;
         }
+
         String montantStr = tmontant.getText().replace(",", ".");
-        // Utilisez comboBox pour obtenir le destinataire sélectionné
-        Long destinataire = combobenef.getValue();
+        Long destinataire = combobenef.getValue(); // Utilisez comboBox pour obtenir le destinataire sélectionné
 
         // Vérifiez que tous les champs nécessaires sont remplis
         if (motif.isEmpty() || montantStr.isEmpty() || destinataire == null || tsource.getText().isEmpty()) {
@@ -107,20 +111,29 @@ public class VirementClientController {
 
         try {
             LocalDate date = LocalDate.now(); // Capture today's date
-            int compteCourantId = virementService.getCompteCourantIdByClientId(1); // Assuming client ID is managed elsewhere
 
             Virement virement = new Virement(source, destinataire, montant, motif, date);
             virementService.create(virement, 1); // Assuming client ID is static here as 1
 
+            String email = virementService.getClientEmailByRib(destinataire);
+            if (email != null) {
+               sendEmail(email, "Confirmation de Virement", "Votre virement de " + montant + " EUR a été effectué vers votre compte.");
+                showAlertWithSuccess("Succès", "Virement ajouté avec succès et email envoyé.");
+            } else {
+                showAlertWithError("Erreur", "Aucun e-mail trouvé pour le RIB sélectionné.");
+            }
+
             clearFields();
             refreshTableView();
-            showAlertWithSuccess("Succès", "Virement ajouté avec succès.");
         } catch (SQLException e) {
             showAlertWithError("Erreur SQL", "Erreur lors de la création du virement : " + e.getMessage());
+        } catch (MessagingException e) {
+            showAlertWithError("Erreur d'envoi d'email", "L'email n'a pas pu être envoyé : " + e.getMessage());
         } catch (Exception e) {
             showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
         }
     }
+
 
     @FXML
     void deleteVirement(ActionEvent event) {
@@ -313,9 +326,9 @@ public class VirementClientController {
             stage.setScene(new Scene(root));
             stage.show();
         }  catch (IOException e) {
-        System.err.println("Erreur lors du chargement du FXML : " + e.getMessage());
-        e.printStackTrace();
-    } catch (java.io.IOException e) {
+            System.err.println("Erreur lors du chargement du FXML : " + e.getMessage());
+            e.printStackTrace();
+        } catch (java.io.IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -330,6 +343,30 @@ public class VirementClientController {
             e.printStackTrace();
         }
     }
+    public static void sendEmail(String to, String subject, String text) throws MessagingException {
+        final String username = "Ebanking.Society@gmail.com";  // à remplacer par votre adresse réelle
+        final String password = "ypbuklkwyqlktqmi";         // à remplacer par votre mot de passe réel
 
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("emnanaija@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+        message.setSubject(subject);
+        message.setText(text);
+
+        Transport.send(message);
+    }
 
 }
