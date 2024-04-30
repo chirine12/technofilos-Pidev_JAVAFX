@@ -1,20 +1,24 @@
 package tn.esprit.model;
 
+import java.util.Date;
+
 public class demande_desac_ce {
 
     private long clientId;
     private int id; // Identifiant unique de la demande
     private long compteepId; // Identifiant du compte associé à la demande
     private String raison;
+    private Date date;
     public demande_desac_ce () {
     }
 
     // Constructeur avec tous les paramètres
-    public demande_desac_ce (int id, long clientId,long compteepId, String raison) {
+    public demande_desac_ce (int id, long clientId,long compteepId, String raison, Date date) {
         this.id = id;
         this.clientId = clientId;
         this.compteepId = compteepId;
         this.raison = raison;
+        this.date = date;
     }
     // Getters et Setters
     public int getId() {
@@ -46,6 +50,13 @@ public class demande_desac_ce {
 
     public void setRaison(String raison) {
         this.raison = raison;
+    }
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     // Méthode toString pour représenter l'objet sous forme de chaîne

@@ -48,24 +48,17 @@ public class compteepAdminController implements Initializable {
     @FXML
     private TableColumn<Compteep, Boolean> etatColumn;
 
-    @FXML
-    private Button btnCreer;
-    @FXML
-    private Button btnModifier;
-    @FXML
-    private Button statButton;
-    @FXML
-    private Button btnSupprimer;
+
     @FXML
     private TextField tDescription;
     @FXML
     private ComboBox<String> cmbType;
     @FXML
     private TableView<Compteep> table;
-    private String originalDescription;
+
     private CompteepService compteepService;
     private ObservableList<Compteep> compteepsData = FXCollections.observableArrayList();
-    TypetauxService typeTauxService = new TypetauxService();
+
 
 
     @FXML
@@ -155,7 +148,7 @@ public class compteepAdminController implements Initializable {
 
             try {
                 // Mettre à jour l'élément dans la base de données
-                compteepService.update(selectedCompteep);
+                 compteepService.update(selectedCompteep);
                 // Rafraîchir la table avec les données mises à jour
                 table.refresh();
             } catch (SQLException e) {

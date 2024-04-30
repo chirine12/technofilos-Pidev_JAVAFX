@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="438.0" prefWidth="724.0" styleClass="form_container" stylesheets="@../CSS/styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.afficherdemandeClientController">
+<AnchorPane prefHeight="721.0" prefWidth="773.0" styleClass="form_container" stylesheets="@../CSS/styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.afficherdemandeClientController">
     <children>
 
 
@@ -16,12 +16,13 @@
                 <TableColumn fx:id="ribColumn" prefWidth="120.0" text="RIB" />
 
                 <TableColumn fx:id="raison" prefWidth="89.0" text="raison" />
-
+                <TableColumn fx:id="date" prefWidth="89.0" text="date" />
             </columns>
         </TableView>
-      <ButtonBar layoutX="-67.0" layoutY="371.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="42.0" layoutY="408.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
           <Button fx:id="btnretour" mnemonicParsing="false" onAction="#clientdashbordpage" text="Retour" />
+            <Button fx:id="btnenvoyer" layoutX="135.0" layoutY="19.0" onAction="#generateAndSendPDF"  mnemonicParsing="false" text="envoyer" />
         </buttons>
       </ButtonBar>
     </children>

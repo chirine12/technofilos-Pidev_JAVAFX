@@ -6,12 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import tn.esprit.model.Compteep;
+import tn.esprit.model.TypeTaux;
 import tn.esprit.model.demande_desac_ce;
 import tn.esprit.service.ClientCompteepService;
 import tn.esprit.service.CompteepService;
@@ -23,61 +25,56 @@ import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ComptepClientController  implements Initializable {
 
 
+    @FXML
+    private TableColumn<Compteep, Long> ribColumn;
 
-        @FXML
-        private TableColumn<Compteep, Long> ribColumn;
+    @FXML
+    private TableColumn<Compteep, Double> soldeColumn;
 
-        @FXML
-        private TableColumn<Compteep, Double> soldeColumn;
+    @FXML
+    private TableColumn<Compteep, String> typeColumn;
 
-        @FXML
-        private TableColumn<Compteep, String> typeColumn;
+    @FXML
+    private TableColumn<Compteep, Date> dateouvColumn;
 
-        @FXML
-        private TableColumn<Compteep, Date> dateouvColumn;
-
-        @FXML
-        private TableColumn<Compteep, String> descriptionColumn;
+    @FXML
+    private TableColumn<Compteep, String> descriptionColumn;
 
 
-        @FXML
-        private TextField tDescription;
-        @FXML
-        private ComboBox<String> cmbType;
-        @FXML
-        private TableView<Compteep> table;
-        private String originalDescription;
-        private ClientCompteepService ClientCompteepService ;
-        private ObservableList<Compteep> compteepsData = FXCollections.observableArrayList();
-        TypetauxService typeTauxService = new TypetauxService();
+    @FXML
+    private TextField tDescription;
+    @FXML
+    private ComboBox<String> cmbType;
+    @FXML
+    private TableView<Compteep> table;
+
+    private ClientCompteepService ClientCompteepService;
+    private ObservableList<Compteep> compteepsData = FXCollections.observableArrayList();
+    TypetauxService typeTauxService = new TypetauxService();
 
 
     @FXML
     private Button btndemandes;
+    private SidebarController sidebarController;
+    private Maindashbord mainController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ClientCompteepService = new ClientCompteepService();
-
+        typeTauxService = new TypetauxService();
         try {
-            Connection cnx = SQLConnector.getInstance().getConnection();
-            // Exécution de la requête SQL pour récupérer les types depuis la table typetaux
-            String sql = "SELECT DISTINCT type FROM typetaux";
-            PreparedStatement statement = cnx.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-
-            List<String> types = new ArrayList<>();
-            while (resultSet.next()) {
-                types.add(resultSet.getString("type"));
-            }
-
+            // Use the TypetauxService to get the types
+            List<TypeTaux> typeTauxList = typeTauxService.read();
+            List<String> types = typeTauxList.stream().map(TypeTaux::getType).distinct().collect(Collectors.toList());
             ObservableList<String> options = FXCollections.observableArrayList(types);
             cmbType.setItems(options);
         } catch (SQLException e) {
-            e.printStackTrace();  // Gérer l'exception selon vos besoins
+            e.printStackTrace();  // Handle the exception as needed
         }
 
         initializeColumns(); // Initialise les colonnes de la table, incluant la colonne ID non-visible
@@ -91,7 +88,6 @@ public class ComptepClientController  implements Initializable {
             }
         });
     }
-
 
 
     private void initializeColumns() {
@@ -131,7 +127,6 @@ public class ComptepClientController  implements Initializable {
     }
 
 
-
     private void showAlert(String title, String message) {
         // Créer une nouvelle alerte de type INFORMATION
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -144,85 +139,85 @@ public class ComptepClientController  implements Initializable {
     }
 
     @FXML
-        void createCompteep(ActionEvent event) {
-            String selectedType = cmbType.getValue();
-            String description = tDescription.getText();
+    void createCompteep(ActionEvent event) {
+        String selectedType = cmbType.getValue();
+        String description = tDescription.getText();
 
-            if (!ClientCompteepService .validateDescription(description)) {
+        if (!ClientCompteepService.validateDescription(description)) {
+            showAlertWithWarning("Invalid Description", "Description must be maximum 10 characters long and must not contain digits.");
+            return;
+        }
+
+        try {
+            int typeId = typeTauxService.findIdByType(selectedType);
+            Long rib = generateRandomRib();
+            java.util.Date utilDate = Calendar.getInstance().getTime();
+            java.sql.Date dateOuverture = new java.sql.Date(utilDate.getTime());
+
+            // Utilisez un constructeur qui inclut typeTauxId
+            Compteep newCompteep = new Compteep(rib, 0.0, selectedType, dateOuverture, description, true, typeId);
+            ClientCompteepService.create(newCompteep);
+            compteepsData.add(newCompteep);
+
+            cmbType.getSelectionModel().clearSelection();
+            tDescription.clear();
+        } catch (SQLException e) {
+            showAlertWithError("Error creating account", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    private Long generateRandomRib() {
+
+        return (long) ((Math.random() * 90_000_000_000L) + 10_000_000_000L);
+        // Utility method for showing error alerts
+    }
+
+    private void showAlertWithError(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    void modifyCompteep(ActionEvent event) {
+        // Récupérer l'élément sélectionné dans la table
+        Compteep selectedCompteep = table.getSelectionModel().getSelectedItem();
+        if (selectedCompteep != null) {
+            // Valider la description en utilisant la méthode de validation du service
+            String newDescription = tDescription.getText();
+            if (!ClientCompteepService.validateDescription(newDescription)) {
                 showAlertWithWarning("Invalid Description", "Description must be maximum 10 characters long and must not contain digits.");
-                return;
+                return; // Arrêter la modification du compte si la description est invalide
             }
+
+            // Mettre à jour la description de l'élément sélectionné
+            selectedCompteep.setDescription(newDescription);
 
             try {
-                int typeId = typeTauxService.findIdByType(selectedType);
-                Long rib = generateRandomRib();
-                java.util.Date utilDate = Calendar.getInstance().getTime();
-                java.sql.Date dateOuverture = new java.sql.Date(utilDate.getTime());
-
-                // Utilisez un constructeur qui inclut typeTauxId
-                Compteep newCompteep = new Compteep(rib, 0.0, selectedType, dateOuverture, description, true, typeId);
-                ClientCompteepService .create(newCompteep);
-                compteepsData.add(newCompteep);
-
-                cmbType.getSelectionModel().clearSelection();
-                tDescription.clear();
+                // Mettre à jour l'élément dans la base de données
+                ClientCompteepService.update(selectedCompteep);
+                // Rafraîchir la table avec les données mises à jour
+                table.refresh();
             } catch (SQLException e) {
-                showAlertWithError("Error creating account", e.getMessage());
+                showAlertWithError("Error updating account", e.getMessage());
                 e.printStackTrace();
             }
+        } else {
+            showAlertWithWarning("No account selected", "Please select an account to modify.");
         }
+    }
 
+    private void showAlertWithWarning(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
-
-        private Long generateRandomRib() {
-
-            return (long) ((Math.random() * 90_000_000_000L) + 10_000_000_000L);
-            // Utility method for showing error alerts
-        }
-
-        private void showAlertWithError(String title, String content) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(title);
-            alert.setContentText(content);
-            alert.showAndWait();
-        }
-
-        @FXML
-        void modifyCompteep(ActionEvent event) {
-            // Récupérer l'élément sélectionné dans la table
-            Compteep selectedCompteep = table.getSelectionModel().getSelectedItem();
-            if (selectedCompteep != null) {
-                // Valider la description en utilisant la méthode de validation du service
-                String newDescription = tDescription.getText();
-                if (!ClientCompteepService .validateDescription(newDescription)) {
-                    showAlertWithWarning("Invalid Description", "Description must be maximum 10 characters long and must not contain digits.");
-                    return; // Arrêter la modification du compte si la description est invalide
-                }
-
-                // Mettre à jour la description de l'élément sélectionné
-                selectedCompteep.setDescription(newDescription);
-
-                try {
-                    // Mettre à jour l'élément dans la base de données
-                    ClientCompteepService .update(selectedCompteep);
-                    // Rafraîchir la table avec les données mises à jour
-                    table.refresh();
-                } catch (SQLException e) {
-                    showAlertWithError("Error updating account", e.getMessage());
-                    e.printStackTrace();
-                }
-            } else {
-                showAlertWithWarning("No account selected", "Please select an account to modify.");
-            }
-        }
-
-        private void showAlertWithWarning(String title, String content) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(content);
-            alert.showAndWait();
-        }
     @FXML
     private void onDisableAccountClicked() {
         Compteep selectedAccount = table.getSelectionModel().getSelectedItem();
@@ -250,21 +245,33 @@ public class ComptepClientController  implements Initializable {
         result.ifPresent(raison -> createDesactivationRequest(compteepId, raison));
     }
 
+
     @FXML
     private void pagedemandes() {
         try {
+            // Charge le FXML pour la page des demandes
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/affichagedemande.fxml"));
-            Parent root = loader.load();
+            Parent demandePage = loader.load();
 
-            // Get the current window or create a new stage if necessary
-            Stage stage = (Stage) btndemandes.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Obtient le contrôleur de la page des demandes
+            afficherdemandeClientController demandeController = loader.getController();
+
+            // Assurez-vous que demandeController a une méthode setMainController ou similaire
+            demandeController.setMainController(mainController);
+
+            // Change le contenu principal à la nouvelle page des demandes
+            mainController.setContenu(demandePage);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load the demands page.");
         }
     }
+
+
+
+    public void setMainController(Maindashbord mainController) {
+        this.mainController = mainController;
+    }
+
 
     private void createDesactivationRequest(long compteepId, String raison) {
         System.out.println("Création de la demande de désactivation pour le compte ID: " + compteepId + " avec la raison: " + raison);
@@ -274,7 +281,7 @@ public class ComptepClientController  implements Initializable {
         demande.setClientId(1);  // Assurez-vous que cela est approprié pour votre logique d'application
         demande.setRaison(raison);
 
-        String sql = "INSERT INTO demande_desac_ce (client_id, compteep_id, raison) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO demande_desac_ce (client_id, compteep_id, raison,date) VALUES (?, ?, ?,current_date)";
         try (Connection conn = SQLConnector.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, demande.getClientId());
@@ -300,9 +307,8 @@ public class ComptepClientController  implements Initializable {
 
 
 
+
+
 }
-
-
-
 
 

@@ -28,7 +28,7 @@ public class ClientCompteepService  implements ICRUD<Compteep>  {
         statement.setString(5, compteep.getDescription());
         statement.setBoolean(6, compteep.getEtat());
         statement.setInt(7, compteep.getTypeTauxId()); // Assurez-vous que le typeTauxId est correctement passé
-        statement.setInt(8, 1); // client_id = 2
+        statement.setInt(8, 1); // client_id = 1
 
         int affectedRows = statement.executeUpdate();
         if (affectedRows == 0) {

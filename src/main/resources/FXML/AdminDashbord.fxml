@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="438.0" prefWidth="724.0" styleClass="form_container" stylesheets="@../CSS/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.compteepAdminController">
+<AnchorPane prefHeight="721.0" prefWidth="773.0" styleClass="form_container" stylesheets="@../CSS/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.compteepAdminController">
     <children>
         <VBox fx:id="tType" layoutX="14.0" layoutY="48.0" prefHeight="308.0" prefWidth="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="48.0">
             <children>
@@ -30,7 +30,7 @@
                 <TableColumn fx:id="etatColumn" prefWidth="75.0" text="etat" />
             </columns>
         </TableView>
-        <Label layoutX="228.0" layoutY="14.0" styleClass="title" text=" COMPTE EPARGNE" />
+        <Label layoutX="228.0" layoutY="14.0" styleClass="title" text="Admin dashboard" />
         <ButtonBar layoutX="254.0" layoutY="348.0" prefHeight="38.0" prefWidth="340.0">
             <buttons>
                 <Button fx:id="btnModifier" layoutX="370.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyCompteep" text="modifier" />

@@ -30,7 +30,7 @@ public class demandesService  {
 
     public List<demande_desac_ce> read() throws SQLException {
         List<demande_desac_ce> demande_desac_ceList = new ArrayList<>();
-        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib " +
+        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib,d.date" +
                 "FROM demande_desac_ce d " +
                 "JOIN compteep c ON d.compteep_id = c.id";
         try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
@@ -40,6 +40,8 @@ public class demandesService  {
                 demande.setCompteepId(resultSet.getLong("compteep_id"));
                 demande.setRaison(resultSet.getString("raison"));
                 demande.setRib(resultSet.getString("rib")); // Add this line to fetch the RIB
+                demande.setDate(resultSet.getDate("date")); //
+
                 demande_desac_ceList.add(demande);
             }
         }
@@ -49,7 +51,7 @@ public class demandesService  {
     public List<demande_desac_ce> readSpecificClient() throws SQLException {
         List<demande_desac_ce> demande_desac_ceList = new ArrayList<>();
         // Ajoutez une jointure avec la table compteep pour récupérer le RIB
-        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib FROM demande_desac_ce d JOIN compteep c ON d.compteep_id = c.id WHERE d.client_id = 1";
+        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib,d.date FROM demande_desac_ce d JOIN compteep c ON d.compteep_id = c.id WHERE d.client_id = 1";
         try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 demande_desac_ce demande = new demande_desac_ce();
@@ -57,6 +59,7 @@ public class demandesService  {
                 demande.setCompteepId(resultSet.getLong("compteep_id"));
                 demande.setRaison(resultSet.getString("raison"));
                 demande.setRib(resultSet.getString("rib")); // Récupérez le RIB depuis le ResultSet
+                demande.setDate(resultSet.getDate("date")); //
 
                 demande_desac_ceList.add(demande);
             }

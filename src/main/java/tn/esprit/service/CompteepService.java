@@ -85,16 +85,7 @@ public class CompteepService  {
         return true;
     }
 
-    public double calculerInteret(Compteep compte, Map<Integer, TypeTaux> tauxMap) {
-        TypeTaux taux = tauxMap.get(compte.getTypeTauxId());
-        if (taux != null) {
-            double tauxAnnuel = taux.getTaux();
-            double tauxMensuel = tauxAnnuel / 12; // Utiliser directement le taux en pourcentage
-            return compte.getSolde() * tauxMensuel / 100; // Calculer l'intérêt mensuel
-        } else {
-            return 0.0; // Aucun intérêt si aucun taux n'est trouvé
-        }
-    }
+
     public List<Compteep> findAllActive() {
         List<Compteep> activeComptes = new ArrayList<>();
         String sql = "SELECT * FROM Compteep WHERE etat = TRUE"; // Assurez-vous que la colonne `etat` est de type approprié
