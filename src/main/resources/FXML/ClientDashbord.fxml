@@ -40,7 +40,7 @@
             <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#onDisableAccountClicked" stylesheets="@../CSS/styles2.css" text="Desactiver" />
             </buttons>
         </ButtonBar>
-      <TextField layoutX="174.0" layoutY="77.0" />
+      <TextField fx:id="labelrecherche" layoutX="174.0" layoutY="77.0" onAction="#recherche" />
       <Text layoutX="79.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" />
     </children>
 </AnchorPane>

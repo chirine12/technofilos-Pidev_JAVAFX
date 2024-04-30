@@ -87,6 +87,9 @@ public class ComptepClientController  implements Initializable {
                 cmbType.setDisable(true); // Désactiver le champ pour empêcher la modification
             }
         });
+        labelrecherche.textProperty().addListener((observable, oldValue, newValue) -> {
+            recherche(); // Appelle la méthode recherche chaque fois que le texte change
+        });
     }
 
 
@@ -305,6 +308,27 @@ public class ComptepClientController  implements Initializable {
 
 
 
+    @FXML
+    private TextField labelrecherche;
+
+    @FXML
+    private void recherche() {
+        String searchText = labelrecherche.getText().trim().toLowerCase(); // Convertir en minuscules pour une recherche insensible à la casse
+        if (searchText.isEmpty()) {
+            table.setItems(compteepsData); // Afficher toutes les données si la recherche est vide
+        } else {
+            ObservableList<Compteep> filteredData = FXCollections.observableArrayList();
+            for (Compteep compte : compteepsData) {
+                // Vous pouvez modifier ici pour rechercher dans d'autres attributs du compte également
+                if (String.valueOf(compte.getRib()).toLowerCase().contains(searchText) ||
+                        compte.getDescription().toLowerCase().contains(searchText) ||
+                        compte.getType().toLowerCase().contains(searchText)) {
+                    filteredData.add(compte);
+                }
+            }
+            table.setItems(filteredData);
+        }
+    }
 
 
 
