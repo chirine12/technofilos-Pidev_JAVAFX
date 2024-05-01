@@ -5,7 +5,7 @@
 <AnchorPane fx:id="main" prefHeight="800.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Maindashbord">
    <children>
       <AnchorPane fx:id="sidebar" prefHeight="400.0" prefWidth="180.0">
-         <fx:include source="Sidebar.fxml" />
+         <fx:include source="SidebarClient.fxml" />
       </AnchorPane>
       <AnchorPane fx:id="contenu" layoutX="280.0" layoutY="79.0" prefHeight="721.0" prefWidth="773.0" />
       <AnchorPane fx:id="navbar" layoutX="280.0" prefHeight="82.0" prefWidth="773.0" />

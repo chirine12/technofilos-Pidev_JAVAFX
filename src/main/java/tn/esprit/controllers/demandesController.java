@@ -39,6 +39,8 @@ public class demandesController implements Initializable {
     private TableColumn raison;
 
     @FXML
+    private TableColumn date;
+    @FXML
     private Button btnaccept;
 
     @FXML
@@ -142,6 +144,7 @@ public class demandesController implements Initializable {
         // Change from idCompteColumn to ribColumn and bind it to the RIB property
         ribColumn.setCellValueFactory(new PropertyValueFactory<>("rib"));
         raison.setCellValueFactory(new PropertyValueFactory<>("raison"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
 
 

@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tn.esprit.controllers.Maindashbord;
 import tn.esprit.controllers.SidebarController;
@@ -20,13 +19,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/maindashbord.fxml"));
+       /* FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/maindashbord.fxml"));
         AnchorPane root = mainLoader.load();
         Maindashbord mainController = mainLoader.getController();
 
         // Après le chargement du fichier FXML principal, la barre latérale est déjà incluse,
         // Nous devons récupérer son contrôleur et définir le contrôleur principal
-        FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/FXML/Sidebar.fxml"));
+        FXMLLoader sidebarLoader = new FXMLLoader(getClass().getResource("/FXML/SidebarClient.fxml"));
         Parent sidebar = sidebarLoader.load();
         SidebarController sidebarController = sidebarLoader.getController();
         sidebarController.setMainController(mainController);
@@ -41,8 +40,17 @@ public class Main extends Application {
         primaryStage.setTitle("Dashboard");
         primaryStage.setScene(scene);
         primaryStage.show();
+*/
 
+       //run pour admin
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
+        Parent root = loader.load();
 
+        // Configurer la scène et le stage
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Admin Dashboard");
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
         // Instancier les services nécessaires
         CompteepService compteepService = new CompteepService(/* arguments du constructeur */);

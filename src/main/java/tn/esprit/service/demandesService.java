@@ -30,9 +30,7 @@ public class demandesService  {
 
     public List<demande_desac_ce> read() throws SQLException {
         List<demande_desac_ce> demande_desac_ceList = new ArrayList<>();
-        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib,d.date" +
-                "FROM demande_desac_ce d " +
-                "JOIN compteep c ON d.compteep_id = c.id";
+        String sql = "SELECT d.id, d.compteep_id, d.raison, c.rib,d.date FROM demande_desac_ce d JOIN compteep c ON d.compteep_id = c.id";
         try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 demande_desac_ce demande = new demande_desac_ce();

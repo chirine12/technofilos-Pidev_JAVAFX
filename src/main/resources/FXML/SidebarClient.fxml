@@ -23,7 +23,7 @@
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />
                     </styleClass></Button>
-                <Button layoutX="14.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleSettings" prefHeight="54.0" prefWidth="253.0" text="Mes virements">
+                <Button layoutX="14.0" layoutY="298.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Mes virements">
                     <styleClass>
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />
@@ -51,7 +51,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleHome" prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="     Client dashboard">
+            <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false"  prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="     Client dashboard">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />
@@ -62,7 +62,7 @@
                   <Image url="@../Images/icons8-macbook-de-performance-50.png" />
                </image>
             </ImageView>
-            <Button layoutX="14.0" layoutY="373.0" mnemonicParsing="false" onAction="#handleSettings" prefHeight="54.0" prefWidth="253.0" text="Beneficaires">
+            <Button layoutX="14.0" layoutY="373.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Beneficaires">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />
@@ -76,7 +76,7 @@
                   <Image url="@../Images/icons8-utilisateur-50.png" />
                </image>
             </ImageView>
-            <Button layoutX="14.0" layoutY="446.0" mnemonicParsing="false" onAction="#handleSettings" prefHeight="54.0" prefWidth="253.0" text="Crédits">
+            <Button layoutX="14.0" layoutY="446.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Crédits">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />
@@ -90,7 +90,7 @@
                   <Image url="@../Images/icons8-compte-marchand-64.png" />
                </image>
             </ImageView>
-            <Button layoutX="14.0" layoutY="516.0" mnemonicParsing="false" onAction="#handleSettings" prefHeight="54.0" prefWidth="253.0" text="Assurance">
+            <Button layoutX="14.0" layoutY="516.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Assurance">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />
@@ -104,7 +104,7 @@
                   <Image url="@../Images/icons8-assurance-64.png" />
                </image>
             </ImageView>
-            <Button layoutX="14.0" layoutY="601.0" mnemonicParsing="false" onAction="#handleSettings" prefHeight="54.0" prefWidth="253.0" text="Cartes">
+            <Button layoutX="14.0" layoutY="601.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Cartes">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />

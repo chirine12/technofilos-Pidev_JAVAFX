@@ -36,11 +36,11 @@
             <buttons>
                 <Button fx:id="btnCreer" mnemonicParsing="false" onAction="#createCompteep" prefHeight="22.0" prefWidth="216.0" text="creer" />
                 <Button fx:id="btnModifier" layoutX="370.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyCompteep" text="modifier" />
-            <Button fx:id="btndemandes" layoutX="275.0" layoutY="18.0" mnemonicParsing="false" onAction="#pagedemandes" prefHeight="22.0" prefWidth="424.0" stylesheets="@../CSS/styles2.css" text="voir mes demandes" />
-            <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#onDisableAccountClicked" stylesheets="@../CSS/styles2.css" text="Desactiver" />
+                <Button fx:id="btndemandes" layoutX="275.0" layoutY="18.0" mnemonicParsing="false" onAction="#pagedemandes" prefHeight="22.0" prefWidth="424.0" stylesheets="@../CSS/styles2.css" text="voir mes demandes" />
+                <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#onDisableAccountClicked" stylesheets="@../CSS/styles2.css" text="Desactiver" />
             </buttons>
         </ButtonBar>
-      <TextField fx:id="labelrecherche" layoutX="174.0" layoutY="77.0" onAction="#recherche" />
-      <Text layoutX="79.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" />
+        <TextField fx:id="labelrecherche" layoutX="174.0" layoutY="77.0" onAction="#recherche" />
+        <Text layoutX="79.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" />
     </children>
 </AnchorPane>

@@ -22,7 +22,7 @@
             <columns>
                 <TableColumn fx:id="ribColumn" prefWidth="108.0" text="RIB" />
                 <TableColumn fx:id="raison" prefWidth="89.0" text="raison" />
-
+                <TableColumn fx:id="date" prefWidth="89.0" text="date" />
 
             </columns>
         </TableView>

@@ -312,6 +312,7 @@ public class ComptepClientController  implements Initializable {
     private TextField labelrecherche;
 
     @FXML
+    
     private void recherche() {
         String searchText = labelrecherche.getText().trim().toLowerCase(); // Convertir en minuscules pour une recherche insensible à la casse
         if (searchText.isEmpty()) {
