@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import tn.esprit.model.Carte;
+import tn.esprit.model.Cheque;
 import tn.esprit.service.CarteService;
 
 import java.sql.SQLException;
@@ -47,6 +48,9 @@ public class TestController {
     private DatePicker txtDate; // Utilisation d'un DatePicker pour la sélection de date
     @FXML
     private Label errorMessage; // Un label pour afficher les messages d'erreur
+    @FXML
+    private TextField searchFieldC;
+
 
 
     private final CarteService carteService = new CarteService();
@@ -67,7 +71,7 @@ public class TestController {
 
         // Vérifier que montant et duree contiennent uniquement des chiffres
         if (!Num.matches("\\d+") || !CVV.matches("\\d+")) {
-            showAlertWithError("Erreur de saisie", "Montant et durée doivent contenir uniquement des chiffres.");
+            showAlertWithError("Erreur de saisie", "CVV et Numero doivent contenir uniquement des chiffres.");
             return;
         }
 
@@ -77,15 +81,21 @@ public class TestController {
 
         // Vérifier que type contient uniquement des caractères
         if (!Nom.matches("[a-zA-Z]+")) {
-            showAlertWithError("Erreur de saisie", "Le type doit contenir uniquement des caractères alphabétiques.");
+            showAlertWithError("Erreur de saisie", "Le Nom doit contenir uniquement des caractères alphabétiques.");
             return;
         }
-
-
+        if (!CVV.matches("\\d{3}")) {
+            showAlertWithError("Erreur de Validation", "Le CVV doit être composée de 3 chiffres exactement.");
+            return;
+        }
+        if (!Num.matches("\\d{8}")) {
+            showAlertWithError("Erreur de Validation", "Le Numéro doit être composée de 8 chiffres exactement.");
+            return;
+        }
         // Récupérer la date de début
         LocalDate datedebValue = txtDate.getValue();
         if (datedebValue == null) {
-            showAlertWithError("Erreur de saisie", "Veuillez sélectionner une date de début.");
+            showAlertWithError("Erreur de saisie", "Veuillez sélectionner une date.");
             return;
         }
         Date date = Date.valueOf(datedebValue);
@@ -144,9 +154,43 @@ public class TestController {
             Nom = txtNom.getText().trim();
              C= txtCVV.getText().trim();
         }else {
-            System.out.println("Sélectionnez un crédit à mettre à jour.");
+            System.out.println("Sélectionnez une carte à mettre à jour.");
         }
-        // Effectuer les mêmes validations que dans la méthode createCredit()
+        if (Numero.isEmpty() || Nom.isEmpty() || C.isEmpty()) {
+            showAlertWithError("Erreur de saisie", "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        // Vérifier que montant et duree contiennent uniquement des chiffres
+        if (!Numero.matches("\\d+") || !C.matches("\\d+")) {
+            showAlertWithError("Erreur de saisie", "CVV et NUMERO doivent contenir uniquement des chiffres.");
+            return;
+        }
+
+        // Convertir les valeurs en types appropriés après la validation
+        Integer Num = Integer.parseInt(Numero);
+        Integer CVV = Integer.parseInt(C);
+
+        // Vérifier que type contient uniquement des caractères
+        if (!Nom.matches("[a-zA-Z]+")) {
+            showAlertWithError("Erreur de saisie", "Le Nom doit contenir uniquement des caractères alphabétiques.");
+            return;
+        }
+        if (!C.matches("\\d{3}")) {
+            showAlertWithError("Erreur de Validation", "Le CVV doit être composée de 3 chiffres exactement.");
+            return;
+        }
+        if (!Numero.matches("\\d{8}")) {
+            showAlertWithError("Erreur de Validation", "Le Numéro doit être composée de 8 chiffres exactement.");
+            return;
+        }
+        // Récupérer la date de début
+        LocalDate datedebValue = txtDate.getValue();
+        if (datedebValue == null) {
+            showAlertWithError("Erreur de saisie", "Veuillez sélectionner une date.");
+            return;
+        }
+        Date date = Date.valueOf(datedebValue);
 
         try {
             // Récupérer le crédit à mettre à jour depuis la base de données
@@ -158,8 +202,8 @@ public class TestController {
                 existingCarte.setCvv(Integer.parseInt(C));
 
                 // Mettre à jour la date de début si elle a été modifiée
-                LocalDate datedebValue = txtDate.getValue();
-                if (datedebValue != null) {
+                LocalDate datedebValue1 = txtDate.getValue();
+                if (datedebValue1 != null) {
                     existingCarte.setDateexp(Date.valueOf(datedebValue));
                 }
 
@@ -173,7 +217,7 @@ public class TestController {
         } catch (SQLException e) {
             showAlertWithError("Erreur SQL", "Erreur lors de la mise à jour du carte : " + e.getMessage());
         } catch (NumberFormatException e) {
-            showAlertWithError("Erreur de saisie", "Montant, payement et duree doivent être des nombres.");
+            showAlertWithError("Erreur de saisie", "Numéro et CVV doivent être des nombres.");
         } catch (Exception e) {
             showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
         }
@@ -195,7 +239,43 @@ public class TestController {
         });
         configureTableView();
         refreshTableView();
+        searchFieldC.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Mettre à jour le TableView avec les résultats de recherche
+            filterCarteByNumero(newValue);
+        });
     }
+    @FXML
+    void filterCarteByNumero(ActionEvent event) {
+        String numero = searchFieldC.getText().trim();
+        filterCarteByNumero(numero);
+    }
+
+    private void filterCarteByNumero(String numero) {
+        try {
+            // Créez une instance de CarteService
+            CarteService carteService = new CarteService();
+
+            // Lire tous les cartes
+            List<Carte> cartes = carteService.read();
+
+            // Filtrer les cartes en fonction du numéro de carte
+            ObservableList<Carte> filteredCartes = FXCollections.observableArrayList();
+            for (Carte carte : cartes) {
+                // Convertir le numéro de carte en String avant de l'utiliser
+                String numeroCarteStr = String.valueOf(carte.getNum());
+                if (numeroCarteStr.contains(numero)) {
+                    filteredCartes.add(carte);
+                }
+            }
+
+            // Mettre à jour le TableView avec les résultats de recherche
+            TableCarte.setItems(filteredCartes);
+        } catch (SQLException e) {
+            errorMessage.setText("Erreur lors de la recherche des cartes: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void configureTableView () {
         // Assurez-vous que le type générique de TableColumn correspond à <Virement, TypeDeLaPropriété>
         // Par exemple, pour idCol qui pourrait être un Integer, la déclaration pourrait ressembler à TableColumn<Virement, Integer>

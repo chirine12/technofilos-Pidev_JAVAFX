@@ -30,6 +30,17 @@
             <artifactId>javafx-controls</artifactId>
             <version>21.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version> <!-- Or the latest version available -->
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version> <!-- Or the latest version available -->
+        </dependency>
+
 
     </dependencies>
     <build>
@@ -40,7 +51,6 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>tn.esprit.test.MainC</mainClass>
-                    <mainClass>tn.esprit.test.MainCheque</mainClass>
                 </configuration>
             </plugin>
         </plugins>

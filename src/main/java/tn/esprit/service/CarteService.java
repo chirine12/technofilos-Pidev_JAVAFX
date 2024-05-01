@@ -81,6 +81,7 @@ public class CarteService implements ICRUD <Carte> {
         }
         return cartes;
     }
+
     public Carte readCarte(int carteId) throws SQLException {
         String sql = "SELECT * FROM Carte WHERE id = ?";
         PreparedStatement statement = cnx.prepareStatement(sql);
@@ -122,6 +123,7 @@ public class CarteService implements ICRUD <Carte> {
         }
         return null; // Retourne null si aucun crédit n'est trouvé avec cet identifiant
     }
+
 }
 
 
