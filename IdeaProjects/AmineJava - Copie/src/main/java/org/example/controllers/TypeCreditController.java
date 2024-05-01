@@ -6,10 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.example.models.Credit;
 import org.example.models.TypeCredit;
 import org.example.services.TypeCreditservice;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
 public class TypeCreditController {
     @FXML
@@ -17,7 +19,7 @@ public class TypeCreditController {
     @FXML
     public Button UpdateButton;
     @FXML
-    public Button DeleteButton;
+    public Button DeleteButton,sortByNameButton,refreshButton;
     @FXML
     private TableView<TypeCredit> TableType;
     @FXML
@@ -29,7 +31,7 @@ public class TypeCreditController {
     @FXML
     private TableColumn<TypeCredit, Float> TauxCol;
     @FXML
-    private TextField Nomid, Tauxid;
+    private TextField Nomid, Tauxid,typeSearchField;
     @FXML
     private Label errorMessage; // Un label pour afficher les messages d'erreur
     private final TypeCreditservice typeCreditservice = new TypeCreditservice();
@@ -153,6 +155,31 @@ public class TypeCreditController {
         });
         configureTableView();
         refreshTableView();
+    }
+    @FXML
+    void searchByType() {
+        String typeToSearch = typeSearchField.getText().trim();
+        if (!typeToSearch.isEmpty()) {
+            try {
+                List<TypeCredit> typeCredits = typeCreditservice.findByType(typeToSearch);
+                if (typeCredits.isEmpty()) {
+                    showAlertWithError("Résultats non trouvés", "Aucun crédit trouvé pour le type : " + typeToSearch);
+                } else {
+                    ObservableList<TypeCredit> creditObservableList = FXCollections.observableArrayList(typeCredits);
+                    TableType.setItems(creditObservableList);
+                }
+            } catch (SQLException e) {
+                showAlertWithError("Erreur SQL", "Erreur lors de la recherche par type : " + e.getMessage());
+            }
+        } else {
+            showAlertWithError("Erreur de saisie", "Veuillez saisir un type pour rechercher.");
+        }
+    }
+    @FXML
+    void sortCreditsByName() throws SQLException {
+        List<TypeCredit> typeCredits = typeCreditservice.read();
+        typeCredits.sort(Comparator.comparing(TypeCredit::getNom));
+        TableType.setItems(FXCollections.observableArrayList(typeCredits));
     }
     private void configureTableView () {
 

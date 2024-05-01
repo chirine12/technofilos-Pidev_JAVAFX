@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.models.Credit;
 import org.example.models.TypeCredit;
 
 import java.sql.SQLException;
@@ -12,4 +13,5 @@ public interface ICRUD<T> {
     TypeCredit findById1(int id) throws SQLException;
     int findTypeCreditByName(String typeName)throws SQLException;
     float findTauxById(int typeCreditId) throws SQLException;
+    List<TypeCredit> findByType(String type) throws SQLException;
 }

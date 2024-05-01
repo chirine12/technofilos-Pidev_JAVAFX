@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.models.Credit;
 import org.example.models.TypeCredit;
 import org.example.utils.DBConnection;
 
@@ -108,5 +109,23 @@ return null;
                 }
             }
         }
+    }
+    public List<TypeCredit> findByType(String type) throws SQLException {
+        List<TypeCredit> typecredits = new ArrayList<>();
+        String sql = "SELECT * FROM typecredit WHERE nom = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setString(1, type);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    TypeCredit typecredit = new TypeCredit();
+                    typecredit.setId(rs.getInt("id"));
+                    typecredit.setNom(rs.getString("nom"));
+                    typecredit.setTaux(rs.getFloat("taux"));
+
+                    typecredits.add(typecredit);
+                }
+            }
+        }
+        return typecredits;
     }
 }

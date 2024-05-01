@@ -11,4 +11,6 @@ public interface CRUD<T> {
     void delete(int id) throws SQLException;
     List<T> read() throws SQLException;
     Credit findById(int id) throws SQLException;
+    List<Credit> findByType(String type) throws SQLException;
+    void generateCreditReport( String destPath);
 }

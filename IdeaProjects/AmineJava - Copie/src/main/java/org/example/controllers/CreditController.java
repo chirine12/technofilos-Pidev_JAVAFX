@@ -1,5 +1,7 @@
 package org.example.controllers;
 
+
+import com.itextpdf.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +12,11 @@ import org.example.models.Credit;
 import org.example.services.CreditService;
 import org.example.models.TypeCredit;
 import org.example.services.TypeCreditservice;
+import org.example.utils.EmailUtil;
 import org.example.utils.DBConnection;
+
+import javafx.stage.FileChooser;
+import java.io.File;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -18,6 +24,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Comparator;
+
+
+
 public class CreditController {
     @FXML
     public Button refreshButton;
@@ -26,7 +36,7 @@ public class CreditController {
     @FXML
     public Button UpdateButton;
     @FXML
-    public Button DeleteButton;
+    public Button DeleteButton,sortByNameButton,exportToPdfButton;
 
     @FXML
     private TableView<Credit> TableCredit;
@@ -52,7 +62,7 @@ public class CreditController {
     @FXML
     private ComboBox<String> typeid;
     @FXML
-    private TextField  montantid, payementid, dureeid;
+    private TextField  montantid, payementid, dureeid,typeSearchField;
     @FXML
     private DatePicker datedebid,datefinid; // Utilisation d'un DatePicker pour la sélection de date
     @FXML
@@ -115,6 +125,28 @@ public class CreditController {
                 Credit credit = new Credit(type, montant, paiement, duree, datedeb, datefin, selectedTypeCredit);
                 creditService.create(credit);
                 System.out.println("Nouveau crédit ajouté avec succès !");
+                // Envoi d'un e-mail pour informer l'utilisateur
+                String recipient = "medamine.benkhelifa@gmail.com"; // Remplacez par l'adresse e-mail de l'utilisateur
+                String subject = "Nouveau crédit créé avec succès";
+
+                String body = "Bonjour,\n\nVotre nouveau crédit a été créé avec succès.\n\n";
+
+                // Ajouter les détails du crédit au corps du message
+                body += "- Type : " + type + "\n" +
+                        "- Montant : " + montant + "\n" +
+                        "- Paiement mensuel : " + paiement + "\n" +
+                        "- Durée : " + duree + " ans\n" +
+                        "- Date de début : " + datedeb + "\n" +
+                        "- Date de fin : " + datefin + "\n\n";
+
+                body += "Cordialement,\nE-bank";
+
+                // Envoyer l'e-mail avec le corps et le logo
+
+                EmailUtil.sendEmail(recipient, subject, body);
+
+                System.out.println("E-mail envoyé à l'utilisateur pour informer la création du crédit !");
+
                 // Réinitialiser les champs de l'interface utilisateur
                 typeid.setValue(null);
                 montantid.clear();
@@ -203,6 +235,8 @@ public class CreditController {
             showAlertWithError("Erreur de saisie", "Le paiement doit être un nombre réel.");
             return;
         }
+        Credit initialSelection = TableCredit.getSelectionModel().getSelectedItem();
+        showCreditDetails(initialSelection);
 
         try {
             // Récupérer le crédit à mettre à jour depuis la base de données
@@ -243,13 +277,60 @@ public class CreditController {
             showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
         }
     }
+    @FXML
+    void searchByType() {
+        String typeToSearch = typeSearchField.getText().trim();
+        if (!typeToSearch.isEmpty()) {
+            try {
+                List<Credit> credits = creditService.findByType(typeToSearch);
+                if (credits.isEmpty()) {
+                    showAlertWithError("Résultats non trouvés", "Aucun crédit trouvé pour le type : " + typeToSearch);
+                } else {
+                    ObservableList<Credit> creditObservableList = FXCollections.observableArrayList(credits);
+                    TableCredit.setItems(creditObservableList);
+                }
+            } catch (SQLException e) {
+                showAlertWithError("Erreur SQL", "Erreur lors de la recherche par type : " + e.getMessage());
+            }
+        } else {
+            showAlertWithError("Erreur de saisie", "Veuillez saisir un type pour rechercher.");
+        }
+    }
+    @FXML
+    void sortCreditsByName() throws SQLException {
+        List<Credit> credits = creditService.read();
+        credits.sort(Comparator.comparing(Credit::getType));
+        TableCredit.setItems(FXCollections.observableArrayList(credits));
+    }
+    @FXML
+    void exportCreditsToPdf() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName("credits.pdf");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files", "*.pdf"));
+
+        // Obtenez la référence de votre scène principale ou stage ici
+        // Par exemple, si cette méthode est liée à un bouton, vous pouvez obtenir le stage comme suit:
+        // Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Note: 'event' doit être passé en paramètre à la méthode handleDownloadReport si utilisé.
+        // Pour simplifier sans contexte d'événement, nous utilisons null ou une autre référence appropriée.
+        File file = fileChooser.showSaveDialog(null); // Remplacez null par la référence de Stage si disponible
+
+        if (file != null) {
+            // Utiliser l'ID client fixe 1 pour générer le rapport
+            int clientId = 1; // Utilisation de l'ID client fixe
+            creditService.generateCreditReport(file.getAbsolutePath());
+        }
+    }
+
     private float calculateMonthlyPayment(int montant, float taux, int duree) {
         // Calculer le paiement mensuel en utilisant la formule de paiement
-        float tauxMensuel = taux / 100 / 12; // Convertir le taux annuel en taux mensuel
+        float tauxMensuel = taux/ 12; // Convertir le taux annuel en taux mensuel
         int nbEcheances = duree * 12; // Convertir la durée en nombre d'échéances mensuelles
         float paiement = (float) (montant * tauxMensuel / (1 - Math.pow(1 + tauxMensuel, -nbEcheances)));
         return paiement;
     }
+
+
     private void populateFields (Credit credit){
 
         montantid.setText(String.valueOf(credit.getMontant()));
@@ -263,6 +344,10 @@ public class CreditController {
             // Remplir la ComboBox avec les types de crédit disponibles
             populateTypeComboBox();
         });
+
+        Credit initialSelection = TableCredit.getSelectionModel().getSelectedItem();
+        showCreditDetails(initialSelection);
+
         this.TableCredit.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 this.populateFields(newSelection);
@@ -273,6 +358,26 @@ public class CreditController {
         configureTableView();
         refreshTableView();
     }
+    private void showCreditDetails(Credit credit) {
+        if (credit != null) {
+            // Afficher les détails du crédit dans les champs du formulaire
+
+            montantid.setText(String.valueOf(credit.getMontant()));
+            payementid.setText(String.valueOf(credit.getPayement()));
+            dureeid.setText(String.valueOf(credit.getDuree()));
+
+            // Utilisez d'autres champs de l'objet Credit pour remplir les autres champs du formulaire
+        } else {
+            // Si aucun crédit n'est sélectionné, vider les champs du formulaire
+            typeid.setValue(null);
+            montantid.clear();
+            payementid.clear();
+            dureeid.clear();
+            // Clear other form fields
+        }
+    }
+
+
     private void configureTableView () {
         this.TypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         this.MontantCol.setCellValueFactory(new PropertyValueFactory<>("montant"));
@@ -299,6 +404,7 @@ public class CreditController {
             e.printStackTrace();
         }
     }
+
     private void showAlertWithError(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

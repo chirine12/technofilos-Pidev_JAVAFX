@@ -10,39 +10,45 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="445.0" prefWidth="787.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.CreditController">
-   <children>
-      <Label layoutX="10.0" layoutY="70.0" text="Type" />
-      <Label layoutX="10.0" layoutY="110.0" text="Montant" />
-      <Label layoutX="10.0" layoutY="150.0" text="Payement" />
-      <Label layoutX="10.0" layoutY="190.0" text="Duree" />
-      <Label layoutX="10.0" layoutY="230.0" text="Datedeb" />
-      <Label layoutX="10.0" layoutY="270.0" text="Datefin" />
-       <ComboBox fx:id="typeid" layoutX="66.0" layoutY="66.0" prefWidth="150.0" />
-      <TextField fx:id="montantid" layoutX="64.0" layoutY="106.0" />
-      <TextField fx:id="payementid" layoutX="65.0" layoutY="146.0" />
-      <TextField fx:id="dureeid" layoutX="65.0" layoutY="186.0" />
-      <DatePicker fx:id="datedebid" layoutX="58.0" layoutY="226.0" />
-      <DatePicker fx:id="datefinid" layoutX="53.0" layoutY="266.0" />
-      <Button fx:id="CreateButton" layoutX="65.0" layoutY="327.0" mnemonicParsing="false" onAction="#createCredit" text="Create" />
-       <Button fx:id="refreshButton" layoutX="150.0" layoutY="327.0" mnemonicParsing="false" onAction="#refreshTableView" text="Refresh" />
-       <TableView fx:id="TableCredit" layoutX="237.0" layoutY="69.0" prefHeight="190.0" prefWidth="514.0">
-        <columns>
+<AnchorPane prefHeight="721.0" prefWidth="773.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.CreditController">
 
-          <TableColumn fx:id="TypeCol" prefWidth="75.0" text="Type" />
-          <TableColumn fx:id="MontantCol" prefWidth="72.79998779296875" text="Montant" />
-            <TableColumn fx:id="PayementCol" prefWidth="72.79998779296875" text="Payement" />
-            <TableColumn fx:id="DureeCol" prefWidth="72.79998779296875" text="Duree" />
-            <TableColumn fx:id="DatedebCol" prefWidth="72.79998779296875" text="Datedeb" />
-            <TableColumn fx:id="DatefinCol" prefWidth="72.79998779296875" text="Datefin" />
+                   <Label layoutX="10.0" layoutY="70.0" text="Type" />
+                   <Label layoutX="10.0" layoutY="110.0" text="Montant" />
+                   <Label layoutX="10.0" layoutY="150.0" text="Payement" />
+                   <Label layoutX="10.0" layoutY="190.0" text="Duree" />
+                   <Label layoutX="10.0" layoutY="230.0" text="Datedeb" />
+                   <Label layoutX="10.0" layoutY="270.0" text="Datefin" />
+                   <ComboBox fx:id="typeid" layoutX="66.0" layoutY="66.0" prefWidth="150.0" />
+                   <TextField fx:id="montantid" layoutX="64.0" layoutY="106.0" />
+                   <TextField fx:id="payementid" layoutX="65.0" layoutY="146.0" />
+                   <TextField fx:id="dureeid" layoutX="65.0" layoutY="186.0" />
+                   <DatePicker fx:id="datedebid" layoutX="58.0" layoutY="226.0" />
+                   <DatePicker fx:id="datefinid" layoutX="53.0" layoutY="266.0" />
+                   <Button fx:id="CreateButton" layoutX="65.0" layoutY="327.0" mnemonicParsing="false" onAction="#createCredit" text="Create" />
+                   <!-- Ajoutez un bouton pour trier les crédits par nom -->
+                   <Button fx:id="sortByNameButton" layoutX="671.0" layoutY="327.0" onAction="#sortCreditsByName" text="Trier par nom" />
 
-        </columns>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TableView>
-      <Button fx:id="UpdateButton" layoutX="256.0" layoutY="327.0" mnemonicParsing="false" onAction="#updateCredit" text="Update" />
-      <Button fx:id="DeleteButton" layoutX="385.0" layoutY="327.0" mnemonicParsing="false" onAction="#deleteCredit" text="Delete" />
 
-   </children>
-</AnchorPane>
+                   <Button fx:id="refreshButton" layoutX="329.0" layoutY="327.0" mnemonicParsing="false" onAction="#refreshTableView" text="Refresh" />
+                   <TableView fx:id="TableCredit" layoutX="329.0" layoutY="131.0" prefHeight="190.0" prefWidth="444.0">
+                       <columns>
+
+                           <TableColumn fx:id="TypeCol" prefWidth="75.0" text="Type" />
+                           <TableColumn fx:id="MontantCol" prefWidth="72.79998779296875" text="Montant" />
+                           <TableColumn fx:id="PayementCol" prefWidth="72.79998779296875" text="Payement" />
+                           <TableColumn fx:id="DureeCol" prefWidth="72.79998779296875" text="Duree" />
+                           <TableColumn fx:id="DatedebCol" prefWidth="72.79998779296875" text="Datedeb" />
+                           <TableColumn fx:id="DatefinCol" prefWidth="72.79998779296875" text="Datefin" />
+
+                       </columns>
+                       <opaqueInsets>
+                           <Insets />
+                       </opaqueInsets>
+                   </TableView>
+                   <Button fx:id="UpdateButton" layoutX="419.0" layoutY="327.0" mnemonicParsing="false" onAction="#updateCredit" text="Update" />
+                   <Button fx:id="DeleteButton" layoutX="513.0" layoutY="327.0" mnemonicParsing="false" onAction="#deleteCredit" text="Delete" />
+                   <Button layoutX="671.0" layoutY="81.0" onAction="#searchByType" text="Rechercher" />
+                   <Button fx:id="exportToPdfButton" layoutX="600.0" layoutY="327.0" onAction="#exportCreditsToPdf" text="pdf" />
+                   <TextField fx:id="typeSearchField" layoutX="464.0" layoutY="81.0" />
+                   <Label layoutX="302.0" layoutY="83.0" text="Rechercher par type :" />
+               </AnchorPane>

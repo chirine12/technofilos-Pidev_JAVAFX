@@ -1,44 +1,164 @@
-.title{
-    -fx-font-size: 2em;
-    -fx-text-fill: #FFFF; /* Correction de la couleur */
-    -fx-font-weight: bold;
+/* Style for the root node */
+.root {
+    -fx-background-color: #f0f0f0; /* Light gray background */
 }
 
-.form_container {
-    -fx-background-color: linear-gradient(to bottom, #0A3353, #016A91); /* Dégradé de bleu */
-    -fx-effect: dropshadow(gaussian, #0A3353, 20, 0.3, 0, 0); /* Ombre douce pour donner de la profondeur */
+/* Style for the title */
+.title {
+    -fx-font-size: 24px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-text-fill: #333333; /* Dark gray text color */
 }
 
-.form_container Text{
-    -fx-font-size: 1.2em;
-    -fx-fill: #EEEEEE; /* Changement pour une meilleure visibilité sur le fond foncé */
+/* Style for buttons */
+.button {
+    -fx-background-color: #007bff; /* Blue background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 14px; /* Font size */
 }
 
-.form_container VBox{
-    -fx-border-width: 1; /* Correction de la largeur de bordure */
-    -fx-border-color: #FFFFFF; /* Bordure blanche pour contraster avec le fond */
-    -fx-padding: 10;
-    -fx-spacing: 10;
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue background color */
 }
 
-.form_container TextField{
-    -fx-pref-width: 250; /* Correction présumée de la largeur préférée */
-    -fx-pref-height: 35;
-    -fx-background-color: #FFFFFF;
-    -fx-font-size: 1.3em;
-    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+/* Style for labels */
+.label {
+    -fx-font-size: 16px; /* Font size */
+    -fx-text-fill: #333333; /* Dark gray text color */
 }
 
-.form_container Button{
-    -fx-background-color: linear-gradient(to right, #0A3353, #016A91); /* Maintien du dégradé */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 3, 0, 0, 3); /* Ombre avec transparence pour un effet plus doux */
-    -fx-pref-width: 100%;
-    -fx-font-size: 1.0em;
-    -fx-font-family: "Calibri Light";
-    -fx-text-fill: #FFFFFF;
+/* Style for text fields */
+.text-field {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-font-size: 14px; /* Font size */
 }
 
-.form_container Button:hover{
+/* Style for combo boxes */
+.combo-box {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-font-size: 14px; /* Font size */
+}
+
+/* Style for text areas */
+.text-area {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-pref-height: 100px; /* Preferred height */
+    -fx-font-size: 14px; /* Font size */
+}
+
+/* Style for ImageView */
+.image-view {
+    -fx-background-image: url('/logoebank2.png'); /* URL de l'image */
+    -fx-background-size: contain; /* Ajuster la taille de l'image pour contenir le nœud */
+    -fx-background-repeat: no-repeat; /* Ne pas répéter l'image */
+    -fx-background-position: center; /* Centrer l'image */
+}
+
+/* Style for menu bar */
+.menu-bar {
+    -fx-background-color: #007bff; /* Background color */
+}
+
+/* Style for menu */
+.menu {
+    -fx-text-fill: white; /* Text color */
+}
+
+/* Style for menu item */
+.menu-item {
+    -fx-font-size: 14px; /* Font size */
+}
+
+/* Hover effect for menu item */
+.menu-item:hover {
+    -fx-background-color: #0056b3; /* Background color on hover */
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 03 10, 23, 5:40:14 PM
+    Author     : WINDOWS 10
+*/
+
+.header{
+    -fx-background-color: linear-gradient(to bottom right, #098c53, #246861);
+    -fx-border-color: #fff;
+    -fx-border-width: 0 0 .8px 0;
+}
+
+.nav-form{
+    -fx-background-color: linear-gradient(to bottom right, #0f6789, #286155);
+}
+
+.nav-btn{
+    -fx-background-color: transparent;
+    -fx-border-color: #fff;
+    -fx-border-width: .4px;
     -fx-cursor: hand;
-    -fx-background-color: linear-gradient(to right, #092834, #014D70); /* Un hover plus sombre */
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+.nav-btn:hover{
+    -fx-background-color: #fff;
+    -fx-text-fill: #000;
+}
+
+.logout{
+    -fx-background-color: #106abf;
+    -fx-padding: 5px;
+    -fx-cursor: hand;
+    -fx-background-radius: 50px;
+}
+.logout:hover{
+    -fx-background-color: #a71931;
+}
+
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+.white-bg{
+    -fx-background-color: #fff;
+}
+
+.radius{
+    -fx-background-radius: 8px;
+}
+
+.transparent{
+    -fx-background-color: transparent;
+}
+
+.table-view{
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: linear-gradient(to bottom right, #0f6789, #286155);
+    -fx-border-radius: 5px;
+    -fx-border-width: 1.5px;
+}
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to bottom right, #0f6789, #286155);
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-background-insets: 0 0 0 0;
+}
+.table-view .column-header, .filter{
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+}
+.table-view .column-header .label{
+    -fx-text-fill: #fff;
+}
+
+.btn{
+    -fx-background-color: linear-gradient(to bottom right, #098c53, #246861);
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+.btn:hover{
+    -fx-background-color: linear-gradient(to bottom right, #0fb565, #399a8f);
 }
