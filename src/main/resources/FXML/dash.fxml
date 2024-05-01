@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="721.0" prefWidth="773.0" styleClass="form_container" stylesheets="@../CSS/styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ComptepClientController">
+   <children>
+      <Label layoutX="352.0" layoutY="221.0" prefHeight="17.0" prefWidth="377.0" text="EMNA" />
+   </children>
+</AnchorPane>

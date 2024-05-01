@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="main" prefHeight="800.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Maindashbord">
+    <children>
+        <!-- Sidebar area -->
+        <AnchorPane fx:id="sidebar" prefHeight="800.0" prefWidth="180.0">
+            <children>
+                <fx:include source="AdminSidebar.fxml" />
+            </children>
+        </AnchorPane>
+
+        <!-- Main content area -->
+        <AnchorPane fx:id="contenu" layoutX="280.0" layoutY="79.0" prefHeight="718.0" prefWidth="873.0">
+            <children>
+                <Label layoutX="319.0" layoutY="196.0" text="admin" />
+            </children></AnchorPane>
+
+        <!-- Navigation bar area -->
+        <AnchorPane fx:id="navbar" layoutX="180.0" layoutY="0.0" prefHeight="82.0" prefWidth="873.0" />
+    </children>
+</AnchorPane>
