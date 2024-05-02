@@ -31,6 +31,18 @@ public class SidebarController {
 
     }
 
+    @FXML
+    private void credit() throws IOException {
+
+        FXMLLoader credit= new FXMLLoader(getClass().getResource("/FXML/Credit.fxml"));
+        Parent sidebar = credit.load();
+        CreditController creditController = credit.getController();
+        creditController .setMainController(mainController);
+        mainController.setContenu((sidebar));
+
+
+    }
+
 
     @FXML
     private void handleSettings() throws IOException {

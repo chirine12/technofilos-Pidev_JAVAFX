@@ -1,125 +1,187 @@
-
-.top-form {
-    -fx-background-color: #fff;
-    -fx-border-color: #000;
-    -fx-border-width: .4px .4px .2px .4px;
+/* Style for the root node */
+.root {
+    -fx-background-color: #f0f0f0; /* Light gray background */
 }
 
-.semi-top-form {
-    -fx-background-color: #efefef;
-    -fx-border-color: #000;
-    -fx-border-width: .2px .4px .4px .4px;
+
+/* Style for the title */
+.title {
+    -fx-font-size: 24px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-text-fill: #333333; /* Dark gray text color */
 }
 
-.close {
-    -fx-background-color: transparent;
-    -fx-cursor: hand;
-}
-.close:hover {
-    -fx-background-color: #fb3d63;
+
+/* Style for buttons */
+.button {
+    -fx-background-color: #007bff; /* Blue background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 14px; /* Font size */
 }
 
-.minimize {
-    -fx-background-color: transparent;
-    -fx-cursor: hand;
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue background color */
 }
-.minimize:hover {
-    -fx-background-color: #a97ba0;
+
+
+/* Style for labels */
+.label {
+    -fx-font-size: 16px; /* Font size */
+    -fx-text-fill: #333333; /* Dark gray text color */
 }
+
+
+/* Style for text fields */
+.text-field {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-font-size: 14px; /* Font size */
+}
+
+
+/* Style for combo boxes */
+.combo-box {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-font-size: 14px; /* Font size */
+}
+
+
+/* Style for text areas */
+.text-area {
+    -fx-pref-width: 200px; /* Preferred width */
+    -fx-pref-height: 100px; /* Preferred height */
+    -fx-font-size: 14px; /* Font size */
+}
+
+
+/* Style for ImageView */
+.image-view {
+    -fx-background-image: url('IMAGES/logoebank2.png'); /* URL de l'image */
+    -fx-background-size: contain; /* Ajuster la taille de l'image pour contenir le nœud */
+    -fx-background-repeat: no-repeat; /* Ne pas répéter l'image */
+    -fx-background-position: center; /* Centrer l'image */
+}
+
+
+/* Style for menu bar */
+.menu-bar {
+    -fx-background-color: #007bff; /* Background color */
+}
+
+
+/* Style for menu */
+.menu {
+    -fx-text-fill: white; /* Text color */
+}
+
+
+/* Style for menu item */
+.menu-item {
+    -fx-font-size: 14px; /* Font size */
+}
+
+
+/* Hover effect for menu item */
+.menu-item:hover {
+    -fx-background-color: #0056b3; /* Background color on hover */
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+   Created on : 03 10, 23, 5:40:14 PM
+   Author     : WINDOWS 10
+*/
+
+
+.header{
+    -fx-background-color: linear-gradient(to bottom right, #098c53, #246861);
+    -fx-border-color: #fff;
+    -fx-border-width: 0 0 .8px 0;
+}
+
 
 .nav-form{
-    -fx-background-color:linear-gradient(to bottom right, #3946a1, #0e1670);
+    -fx-background-color: linear-gradient(to bottom right, #0f6789, #286155);
 }
 
+
 .nav-btn{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-    -fx-pref-width: 200px;
-    -fx-text-fill:#fff;
-    -fx-font-size:15px;
-    -fx-font-family:"Arial";
-    -fx-alignment:CENTER;
+    -fx-background-color: transparent;
+    -fx-border-color: #fff;
+    -fx-border-width: .4px;
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
 }
 .nav-btn:hover{
     -fx-background-color: #af88a7;
-    -fx-text-fill:#000;
-}
-.white-border-text-field {
-    -fx-border-color: white;
-    -fx-border-width: 2px;
+    -fx-text-fill: #000;
 }
 
-.logout {
-    -fx-background-color: #2c84bf;
-    -fx-background-radius: 10px;
+
+.logout{
+    -fx-background-color: #106abf;
+    -fx-padding: 5px;
     -fx-cursor: hand;
+    -fx-background-radius: 50px;
 }
-.logout:hover {
-    -fx-background-color: #1593e7;
-}
-
-.shadow {
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 6, 0, 0, 0);
+.logout:hover{
+    -fx-background-color: #a71931;
 }
 
-.white-bg {
+
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+
+.white-bg{
     -fx-background-color: #fff;
+}
+
+
+.radius{
     -fx-background-radius: 8px;
 }
 
-.card {
-    -fx-background-color: linear-gradient(to right, #344250, #3c6382);
-    -fx-background-radius: 4px;
-}
 
-.search {
+.transparent{
     -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772);
-    -fx-border-width: .8px;
-    -fx-border-radius: 8px;
-    -fx-font-family: "Tahoma";
-    -fx-font-size: 14px;
-    -fx-padding: 0px 0px 0px 28px;
 }
 
-.search:focused {
-    -fx-border-width: 1.8px;
-}
 
-.table-view {
+.table-view{
     -fx-background-color: transparent;
-    -fx-padding: 0px;
-    -fx-border-color: linear-gradient(to bottom right, #2d658c, #4aa3df);
-
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
+    -fx-padding: 0;
+    -fx-border-color: linear-gradient(to bottom right, #0f6789, #286155);
+    -fx-border-radius: 5px;
+    -fx-border-width: 1.5px;
 }
-.table-view .table-column {
-    -fx-alignment: CENTER;
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to bottom right, #0f6789, #286155);
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-background-insets: 0 0 0 0;
 }
-.table-view .column-header-background {
-    -fx-background-color: linear-gradient(to bottom right,  #2d658c, #4aa3df);
-    -fx-background-radius: 8px 8px 0px 0px;
-    -fx-background-inset: 0 0 0 0;
-}
-.table-view .column-header, .filter {
+.table-view .column-header, .filter{
     -fx-background-color: transparent;
     -fx-size: 40px;
 }
-.table-view .column-header .label {
+.table-view .column-header .label{
     -fx-text-fill: #fff;
-    -fx-font-family: "Arial";
 }
 
-.textfield {
-    -fx-background-color: linear-gradient(to bottom, #efefef, #eee);
-    -fx-background-radius: 4px;
-    -fx-border-color: linear-gradient(to bottom right, #2d658c, #2ca772);
-    -fx-border-width: .8px;
-    -fx-font-family: "Tahoma";
-    -fx-border-radius: 4px;
+
+.btn{
+    -fx-background-color: linear-gradient(to bottom right, #098c53, #246861);
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
 }
-.textfield:focused {
-    -fx-background-color: #fff;
-    -fx-border-width: 1px;
+.btn:hover{
+    -fx-background-color: linear-gradient(to bottom right, #0fb565, #399a8f);
 }
+

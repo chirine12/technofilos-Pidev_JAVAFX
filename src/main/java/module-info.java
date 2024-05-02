@@ -7,6 +7,7 @@ module com.example.test.projet_java {
     requires itextpdf;
     requires java.mail;
 
+
     // The controllers package must be opened to javafx.fxml for reflection.
     opens tn.esprit.controllers to javafx.fxml;
     // If you have FXML files in tn.esprit.test package, you should open it to javafx.fxml as well.

@@ -29,6 +29,30 @@ public class AdminSidebarController {
 
 
 
+    @FXML
+    private void handleHome() throws IOException {
+
+        FXMLLoader admindashbord = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
+        Parent sidebar = admindashbord.load();
+        compteepAdminController admindashbordController = admindashbord.getController();
+        admindashbordController.setMainController(mainController);
+        mainController.setContenu((sidebar));
+
+
+    }
+
+    @FXML
+    private void typecredit() throws IOException {
+
+        FXMLLoader typecreditdashbord = new FXMLLoader(getClass().getResource("/FXML/typeCredit.fxml"));
+        Parent sidebar = typecreditdashbord.load();
+        TypeCreditController typecreditdashbordController = typecreditdashbord.getController();
+        typecreditdashbordController.setMainController(mainController);
+        mainController.setContenu((sidebar));
+
+
+    }
+
 
 
 

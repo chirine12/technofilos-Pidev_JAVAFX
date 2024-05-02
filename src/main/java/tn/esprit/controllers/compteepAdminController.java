@@ -67,6 +67,8 @@ public class compteepAdminController implements Initializable {
 
     @FXML
     private Button btntypetaux;
+    private Maindashbord mainController;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -213,54 +215,65 @@ public class compteepAdminController implements Initializable {
     @FXML
     private void voirstat(ActionEvent event) {
         try {
-            // Chargez le fichier FXML de la page des statistiques
+            // Charge le FXML pour la page des demandes
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/statcompteep.fxml"));
-            Parent root = loader.load();
+            Parent statPage = loader.load();
 
-            // Créez une nouvelle scène pour afficher la page des statistiques
-            Scene statsScene = new Scene(root);
+            // Obtient le contrôleur de la page des demandes
+           StatCompteepController statController= loader.getController();
 
-            // Obtenez une référence à la scène actuelle à partir du bouton
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // Assurez-vous que demandeController a une méthode setMainController ou similaire
+            statController.setMainController(mainController);
 
-            // Définissez la nouvelle scène dans la fenêtre principale
-            stage.setScene(statsScene);
+            // Change le contenu principal à la nouvelle page des demandes
+            mainController.setContenu(statPage);
         } catch (IOException e) {
             e.printStackTrace();
-            // Gérez les exceptions appropriées ici
         }
     }
 
     @FXML
     private void pagedemandes() {
         try {
+            // Charge le FXML pour la page des demandes
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/acceptdemande.fxml"));
-            Parent root = loader.load();
+            Parent demandePage = loader.load();
 
-            // Get the current window or create a new stage if necessary
-            Stage stage = (Stage) btndemandes.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Obtient le contrôleur de la page des demandes
+            demandesController demandeController = loader.getController();
+
+            // Assurez-vous que demandeController a une méthode setMainController ou similaire
+            demandeController.setMainController(mainController);
+
+            // Change le contenu principal à la nouvelle page des demandes
+            mainController.setContenu(demandePage);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load the demands page.");
         }
     }
 
     @FXML
     private void pagetypetaux() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/typetaux.fxml"));
-            Parent root = loader.load();
+            // Charge le FXML pour la page des demandes
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Typetaux.fxml"));
+            Parent typetauxPage = loader.load();
 
-            // Get the current window or create a new stage if necessary
-            Stage stage = (Stage) btntypetaux.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Obtient le contrôleur de la page des demandes
+            typetaux typetaux= loader.getController();
+
+            // Assurez-vous que demandeController a une méthode setMainController ou similaire
+            typetaux.setMainController(mainController);
+
+            // Change le contenu principal à la nouvelle page des demandes
+            mainController.setContenu(typetauxPage);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load the demands page.");
         }
+    }
+
+    public void setMainController(Maindashbord mainController) {
+        this.mainController = mainController;
     }
 
 }

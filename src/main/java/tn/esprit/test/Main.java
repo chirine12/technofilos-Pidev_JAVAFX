@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tn.esprit.controllers.AdminSidebarController;
 import tn.esprit.controllers.Maindashbord;
 import tn.esprit.controllers.SidebarController;
 import tn.esprit.service.CompteepService;
@@ -19,7 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/maindashbord.fxml"));
+      FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/maindashbord.fxml"));
         AnchorPane root = mainLoader.load();
         Maindashbord mainController = mainLoader.getController();
 
@@ -41,8 +42,8 @@ public class Main extends Application {
         primaryStage.setTitle("Dashboard");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-         /* // nouveau start de ladmin
+/*
+         // nouveau start de ladmin
          FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/FXML/adminmaindashbord.fxml"));
         AnchorPane root = mainLoader.load();
         Maindashbord mainController = mainLoader.getController();
@@ -64,10 +65,10 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.setTitle("Dashboard");
         primaryStage.setScene(scene);
-        primaryStage.show();  */
+        primaryStage.show();
 
-
-/*//ancienstart admin
+/*
+  //ancienstart admin
        //run pour admin
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
         Parent root = loader.load();

@@ -18,12 +18,12 @@
                     <font>
                         <Font name="Calibri Italic" size="31.0" />
                     </font></Label>
-                <Button layoutX="15.0" layoutY="224.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="          Mes comptes epargnes">
+                <Button layoutX="15.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleHome" prefHeight="54.0" prefWidth="250.0" text="          les comptes epargnes">
                     <styleClass>
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />
                     </styleClass></Button>
-                <Button layoutX="14.0" layoutY="298.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Mes virements">
+                <Button layoutX="14.0" layoutY="298.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="les virements">
                     <styleClass>
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />
@@ -51,7 +51,7 @@
                         <Font size="15.0" />
                     </font>
                 </Text>
-                <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="     Client dashboard">
+                <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="251.0" text="     Client dashboard">
                     <styleClass>
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />
@@ -76,7 +76,7 @@
                         <Image url="@../Images/icons8-utilisateur-50.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="14.0" layoutY="446.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Crédits">
+                <Button layoutX="14.0" layoutY="446.0" mnemonicParsing="false" onAction="#typecredit" prefHeight="54.0" prefWidth="253.0" text="types de credits">
                     <styleClass>
                         <String fx:value="nav-btn" />
                         <String fx:value="white-border-text-field" />

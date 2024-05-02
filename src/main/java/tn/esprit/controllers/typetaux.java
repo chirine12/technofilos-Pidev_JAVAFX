@@ -49,7 +49,7 @@ public class typetaux implements Initializable {
     @FXML
     private Button btnretour;
 
-
+    private Maindashbord mainController;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        typetauxService = new TypetauxService();
@@ -211,17 +211,25 @@ public class typetaux implements Initializable {
     @FXML
     private void admindashbordpage() {
         try {
+            // Charge le FXML pour le clientdashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
-            Parent root = loader.load();
+            Parent adminDashboard = loader.load();
 
-            // Get the current window or create a new stage if necessary
-            Stage stage = (Stage) btnretour.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Configure le contrôleur du dashboard client, si nécessaire
+            compteepAdminController controller = loader.getController();
+            controller.setMainController(mainController);
+
+            // Change le contenu pour afficher le dashboard client
+            mainController.setContenu(adminDashboard);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load the demands page.");
         }
+    }
+
+
+
+    public void setMainController(Maindashbord mainController) {
+        this.mainController = mainController;
     }
 
 }

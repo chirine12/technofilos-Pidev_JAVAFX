@@ -53,7 +53,7 @@ public class afficherdemandeClientController implements Initializable {
     private  demandesService demandesService;
     private ObservableList<demande_desac_ce> demandesData = FXCollections.observableArrayList();
 
-
+    private Maindashbord mainController;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         demandesService = new demandesService();
@@ -101,7 +101,7 @@ public class afficherdemandeClientController implements Initializable {
     }
 
 
-    private Maindashbord mainController;
+
 
     public void setMainController(Maindashbord mainController) {
         this.mainController = mainController;

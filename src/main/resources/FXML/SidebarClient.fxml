@@ -12,7 +12,7 @@
 
 <BorderPane prefHeight="800.0" prefWidth="250.0" styleClass="nav-form" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.SidebarController">
    <left>
-        <AnchorPane prefHeight="50.0" prefWidth="30.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="50.0" prefWidth="30.0" stylesheets="@Style2.css" BorderPane.alignment="CENTER">
             <children>
                 <Label alignment="CENTER" layoutX="16.0" layoutY="14.0" prefHeight="104.0" prefWidth="231.0" styleClass="white-border-text-field" stylesheets="@Style.css" textFill="WHITE">
                     <font>
@@ -51,7 +51,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false"  prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="     Client dashboard">
+            <Button layoutX="15.0" layoutY="149.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="251.0" stylesheets="@Style.css" text="     Client dashboard">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />
@@ -76,7 +76,7 @@
                   <Image url="@../Images/icons8-utilisateur-50.png" />
                </image>
             </ImageView>
-            <Button layoutX="14.0" layoutY="446.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Crédits">
+            <Button layoutX="14.0" layoutY="446.0"  onAction="#credit" mnemonicParsing="false" prefHeight="54.0" prefWidth="253.0" text="Crédits">
                <styleClass>
                   <String fx:value="nav-btn" />
                   <String fx:value="white-border-text-field" />

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="main" prefHeight="800.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.Maindashbord">
    <children>
@@ -12,13 +15,24 @@
          </children>
       </AnchorPane>
 
-      <!-- Main content area -->
-      <AnchorPane fx:id="contenu" layoutX="280.0" layoutY="79.0" prefHeight="718.0" prefWidth="873.0">
+                        <!-- Main content area -->
+      <AnchorPane fx:id="contenu" layoutX="280.0" prefHeight="800.0" prefWidth="873.0">
          <children>
-            <Label layoutX="319.0" layoutY="196.0" text="emna" />
+            <Label layoutX="14.0" layoutY="68.0" prefHeight="49.0" prefWidth="203.0" text="Bienvenu ">
+               <font>
+                  <Font name="Arial Nova" size="33.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="110.0" prefHeight="49.0" prefWidth="490.0" text="Voici vos données financieres">
+               <font>
+                  <Font name="Arial Nova" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="176.0" fitWidth="228.0" layoutX="32.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/Card%201.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
-
-      <!-- Navigation bar area -->
-      <AnchorPane fx:id="navbar" layoutX="180.0" layoutY="0.0" prefHeight="82.0" prefWidth="873.0" />
    </children>
 </AnchorPane>

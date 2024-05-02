@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="721.0" prefWidth="773.0" styleClass="form_container" stylesheets="@../CSS/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.compteepAdminController">
+<AnchorPane prefHeight="800.0" prefWidth="873.0" styleClass="form_container" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.compteepAdminController">
     <children>
-        <VBox fx:id="tType" layoutX="14.0" layoutY="48.0" prefHeight="308.0" prefWidth="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="48.0">
+        <VBox fx:id="tType" layoutX="26.0" layoutY="198.0" prefHeight="263.0" prefWidth="220.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="198.0">
             <children>
 
 
@@ -20,30 +20,30 @@
                 <TextField fx:id="tDescription" />
             </children>
         </VBox>
-        <TableView fx:id="table" layoutX="247.0" layoutY="71.0" prefHeight="263.0" prefWidth="449.0" styleClass="form_container">
+        <TableView fx:id="table" layoutX="273.0" layoutY="144.0" prefHeight="483.0" prefWidth="449.0" styleClass="form_container">
             <columns>
                 <TableColumn fx:id="ribColumn" prefWidth="75.0" text="rib" />
                 <TableColumn fx:id="soldeColumn" prefWidth="75.0" text="solde" />
-                <TableColumn fx:id="typeColumn" prefWidth="75.0" text="type" />
-                <TableColumn fx:id="dateouvColumn" prefWidth="75.0" text="dateouv" />
+                <TableColumn fx:id="typeColumn" prefWidth="68.0" text="type" />
+                <TableColumn fx:id="dateouvColumn" prefWidth="82.0" text="dateouv" />
                 <TableColumn fx:id="descriptionColumn" prefWidth="75.0" text="description" />
                 <TableColumn fx:id="etatColumn" prefWidth="75.0" text="etat" />
             </columns>
         </TableView>
-        <Label layoutX="228.0" layoutY="14.0" styleClass="title" text="Admin dashboard" />
-        <ButtonBar layoutX="254.0" layoutY="348.0" prefHeight="38.0" prefWidth="340.0">
+        <Label layoutX="227.0" layoutY="59.0" styleClass="title" text="Comptes epargnes dashboard" />
+        <ButtonBar layoutX="269.0" layoutY="639.0" prefHeight="38.0" prefWidth="478.0">
             <buttons>
-                <Button fx:id="btnModifier" layoutX="370.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyCompteep" text="modifier" />
-                <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#desactiverCompteep" stylesheets="@../CSS/styles.css" text="Desactiver" />
-                <Button fx:id="btnactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#activerCompteep" stylesheets="@../CSS/styles.css" text="activer" />
+                <Button fx:id="btnModifier" layoutX="370.0" layoutY="17.0" mnemonicParsing="false" onAction="#modifyCompteep" prefHeight="24.0" prefWidth="124.0" stylesheets="@Style.css" text="modifier" />
+                <Button fx:id="btnDesactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#desactiverCompteep" prefHeight="25.0" stylesheets="@Style.css" text="Desactiver" />
+                <Button fx:id="btnactiver" layoutX="282.0" layoutY="17.0" mnemonicParsing="false" onAction="#activerCompteep" stylesheets="@Style.css" text="activer" />
 
-                <Button fx:id="statButton" layoutX="275.0" layoutY="18.0" mnemonicParsing="false" onAction="#voirstat" stylesheets="@../CSS/styles.css" text="statistique" />
+                <Button fx:id="statButton" layoutX="275.0" layoutY="18.0" mnemonicParsing="false" onAction="#voirstat" prefHeight="21.0" prefWidth="143.0" stylesheets="@Style.css" text="statistique" />
             </buttons>
         </ButtonBar>
-      <ButtonBar layoutX="305.0" layoutY="386.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="252.0" layoutY="691.0" prefHeight="40.0" prefWidth="470.0">
         <buttons>
           <Button fx:id="btntypetaux" mnemonicParsing="false" onAction="#pagetypetaux" text="type et taux" />
-            <Button fx:id="btndemandes" mnemonicParsing="false" onAction="#pagedemandes" text="demandes de desactivation" />
+            <Button fx:id="btndemandes" mnemonicParsing="false" onAction="#pagedemandes" prefHeight="14.0" text="demandes de desactivation" />
         </buttons>
       </ButtonBar>
     </children>

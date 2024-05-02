@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="800.0" prefWidth="873.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.TypeCreditController">
+    <children>
+        <Label layoutX="88.0" layoutY="326.0" text="Nom" />
+        <Label layoutX="89.0" layoutY="373.0" text="Taux" />
+
+
+        <TextField fx:id="Nomid" layoutX="157.0" layoutY="322.0" />
+        <TextField fx:id="Tauxid" layoutX="157.0" layoutY="369.0" />
+        <Button fx:id="CreateButton" layoutX="81.0" layoutY="515.0" mnemonicParsing="false" onAction="#createType" text="Create" />
+        <TableView fx:id="TableType" layoutX="490.0" layoutY="138.0" prefHeight="351.0" prefWidth="228.0">
+            <columns>
+                <TableColumn fx:id="IdCol" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="NomCol" prefWidth="75.0" text="Nom" />
+                <TableColumn fx:id="TauxCol" prefWidth="75.0" text="Taux" />
+            </columns>
+        </TableView>
+        <Button fx:id="refreshButton" layoutX="195.0" layoutY="515.0" mnemonicParsing="false" onAction="#refreshTableView" text="Refresh" />
+        <Button fx:id="sortByNameButton" layoutX="604.0" layoutY="515.0" onAction="#sortCreditsByName" text="Trier par nom" />
+        <Button fx:id="UpdateButton" layoutX="357.0" layoutY="515.0" mnemonicParsing="false" onAction="#updateType" text="Update" />
+        <Button fx:id="DeleteButton" layoutX="506.0" layoutY="515.0" mnemonicParsing="false" onAction="#deleteType" text="Delete" />
+        <Button layoutX="317.0" layoutY="171.0" onAction="#searchByType" prefHeight="34.0" prefWidth="103.0" text="Rechercher" />
+        <TextField fx:id="typeSearchField" layoutX="148.0" layoutY="175.0" />
+        <Label layoutX="14.0" layoutY="179.0" text="Rechercher par type :" />
+      <Label layoutX="280.0" layoutY="71.0" styleClass="title" text="Les types de Credits" />
+    </children>
+</AnchorPane>

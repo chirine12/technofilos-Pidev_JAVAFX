@@ -1,6 +1,6 @@
 package tn.esprit.controllers;
 
-import javafx.collections.FXCollections;
+import  javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,6 +51,7 @@ public class demandesController implements Initializable {
     private  demandesService demandesService;
     private ObservableList<demande_desac_ce> demandesData = FXCollections.observableArrayList();
     private SMSService smsService = new SMSService();
+    private Maindashbord mainController;
     @FXML
     private void accept() {
         // Try to get the selected request from the table.
@@ -163,16 +164,25 @@ public class demandesController implements Initializable {
     @FXML
     private void admindashbordpage() {
         try {
+            // Charge le FXML pour le clientdashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
-            Parent root = loader.load();
+            Parent adminDashboard = loader.load();
 
-            // Get the current window or create a new stage if necessary
-            Stage stage = (Stage) btnretour.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Configure le contrôleur du dashboard client, si nécessaire
+            compteepAdminController controller = loader.getController();
+            controller.setMainController(mainController);
+
+            // Change le contenu pour afficher le dashboard client
+            mainController.setContenu(adminDashboard);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load the demands page.");
         }
     }
+
+
+
+    public void setMainController(Maindashbord mainController) {
+        this.mainController = mainController;
+    }
+
 }

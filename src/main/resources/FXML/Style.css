@@ -35,13 +35,13 @@
     -fx-background-color:transparent;
     -fx-cursor:hand;
     -fx-pref-width: 200px;
-    -fx-text-fill:#fff;
+    -fx-text-fill: #2ca772;
     -fx-font-size:15px;
     -fx-font-family:"Arial";
     -fx-alignment:CENTER;
 }
 .nav-btn:hover{
-    -fx-background-color: #af88a7;
+    -fx-background-color: #2ca772;
     -fx-text-fill:#000;
 }
 .white-border-text-field {
@@ -98,7 +98,7 @@
     -fx-alignment: CENTER;
 }
 .table-view .column-header-background {
-    -fx-background-color: linear-gradient(to bottom right,  #2d658c, #4aa3df);
+    -fx-background-color: linear-gradient(to bottom right,  #2d658c, #2d658c);
     -fx-background-radius: 8px 8px 0px 0px;
     -fx-background-inset: 0 0 0 0;
 }
@@ -122,4 +122,22 @@
 .textfield:focused {
     -fx-background-color: #fff;
     -fx-border-width: 1px;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #2d658c, #2ca772); /* Dégradé de bleu */
+    -fx-text-fill: white; /* Texte blanc */
+    -fx-font-family: "Roboto"; /* Police Roboto */
+    -fx-font-size: 14px; /* Taille de police plus petite */
+    -fx-background-radius: 4px; /* Coins arrondis */
+    -fx-border-color: #0056b3; /* Bordure bleue */
+    -fx-border-width: 1px; /* Bordure */
+    -fx-padding: 6px 12px; /* Espace à l'intérieur du bouton */
+}
+
+
+.title{
+    -fx-font-size: 2em;
+    -fx-text-fill: #2d658c; /* Correction de la couleur */
+    -fx-font-weight: bold;
 }

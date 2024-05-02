@@ -3,8 +3,12 @@ package tn.esprit.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
+
+import java.io.IOException;
 import java.util.Map;
 import tn.esprit.service.StatistiqueService;
 
@@ -14,6 +18,7 @@ public class StatCompteepController {
 
     @FXML
     private PieChart pieChart;
+    private Maindashbord mainController;
 
     @FXML
     private void initialize() {
@@ -54,4 +59,33 @@ public class StatCompteepController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    @FXML
+    private void admindashbordpage() {
+        try {
+            // Charge le FXML pour le clientdashboard
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/admindashbord.fxml"));
+            Parent adminDashboard = loader.load();
+
+            // Configure le contrôleur du dashboard client, si nécessaire
+            compteepAdminController controller = loader.getController();
+            controller.setMainController(mainController);
+
+            // Change le contenu pour afficher le dashboard client
+            mainController.setContenu(adminDashboard);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+    public void setMainController(Maindashbord mainController) {
+        this.mainController = mainController;
+    }
 }
+
+
