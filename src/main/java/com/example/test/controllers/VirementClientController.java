@@ -139,7 +139,7 @@ public class VirementClientController {
             String email = virementService.getClientEmailByRib(destinataire);
             if (email != null) {
                 sendEmail(email, "Confirmation de Virement", "Votre virement de " + montant + " EUR a été effectué vers votre compte.");
-                sms.sendSms("+21655347204", "Votre virement de " + montant + " EUR a été effectué avec succès."); // Utilisez votre propre numéro Twilio et celui du destinataire
+                sms.sendSms("+21655347204", "Vous avez recu un virement veuillez verifiez votre mail pour voir le montant."); // Utilisez votre propre numéro Twilio et celui du destinataire
                 showAlertWithSuccess("Succès", "Virement ajouté avec succès, email et SMS envoyés.");
             } else {
                 showAlertWithError("Erreur", "Aucun e-mail trouvé pour le RIB sélectionné.");

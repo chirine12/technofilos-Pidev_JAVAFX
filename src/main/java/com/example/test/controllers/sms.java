@@ -10,7 +10,7 @@ import com.twilio.type.PhoneNumber;
 
 public class sms {
     public static void sendSms(String to, String message) {
-      
+
 
         Message sms = Message.creator(
                 new PhoneNumber("+21655347204"),             // Le numéro du destinataire
