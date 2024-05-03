@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="ttype" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="884.0" stylesheets="@../css/styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projetpi.Controllers.ContratController">
+    <children>
+        <Label layoutX="363.0" layoutY="30.0" text="Contrat ">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <TableView fx:id="table" layoutY="81.0" onMouseClicked="#getData" prefHeight="182.0" prefWidth="884.0">
+            <columns>
+                <TableColumn fx:id="tType" prefWidth="142.4000186920166" text="type" />
+                <TableColumn fx:id="tnumero" prefWidth="176.79995727539062" text="numero" />
+                <TableColumn fx:id="tSignature" prefWidth="164.7999267578125" text="Signature" />
+                <TableColumn fx:id="tdatedebut" minWidth="0.0" prefWidth="175.20010375976562" text="datedebut" />
+                <TableColumn fx:id="tdatefin" prefWidth="215.199951171875" text="datefin" />
+            </columns>
+        </TableView>
+        <Label layoutX="26.0" layoutY="298.0" prefHeight="18.0" prefWidth="146.0" text="Type " />
+        <Label layoutX="467.0" layoutY="320.0" text="Signature " />
+        <Label layoutX="27.0" layoutY="415.0" text="Datefin " />
+        <Label layoutX="26.0" layoutY="334.0" text="Numero" />
+        <Label layoutX="26.0" layoutY="372.0" text="Datedebut " />
+        <TextField fx:id="ttyp" layoutX="164.0" layoutY="303.0" prefHeight="26.0" prefWidth="175.0" stylesheets="@../css/styles2.css" />
+        <TextField fx:id="tNumero" layoutX="164.0" layoutY="342.0" prefHeight="26.0" prefWidth="258.0" />
+        <DatePicker fx:id="tDatedebut" layoutX="164.0" layoutY="377.0" prefHeight="51.0" prefWidth="250.0" />
+        <DatePicker fx:id="tDatefin" layoutX="164.0" layoutY="420.0" prefHeight="51.0" prefWidth="250.0" />
+        <AnchorPane layoutX="600.0" layoutY="273.0" prefHeight="182.0" prefWidth="189.0">
+            <children>
+                <Button fx:id="tImport" layoutX="57.0" layoutY="140.8" mnemonicParsing="false" onAction="#importImage" prefHeight="43.0" prefWidth="202.0" text="Import" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="141.0" />
+                <ImageView fx:id="tImage" fitHeight="142.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+        </AnchorPane>
+        <ButtonBar layoutY="497.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="884.0">
+            <buttons>
+                <Button fx:id="bDelete" minWidth="62.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteContrat" prefHeight="44.0" prefWidth="224.0" text="Delete" />
+                <Button fx:id="bUpdate" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#updateContrat" prefHeight="44.0" prefWidth="250.0" text="Update" />
+                <Button fx:id="bSave" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#createContrat" prefHeight="44.0" prefWidth="250.0" text="Save" />
+                <Button fx:id="bClear" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#clearField" prefHeight="44.0" prefWidth="250.0" text="Clear" />
+            </buttons>
+        </ButtonBar>
+    </children>
+    <styleClass>
+        <String fx:value="label" />
+        <String fx:value="form_container" />
+    </styleClass>
+</AnchorPane>
