@@ -1,8 +1,24 @@
 package com.example.test.controllers;
 
+import com.example.test.utils.Bridge;
+import com.example.test.model.Virement;
+import com.example.test.service.VirementClientService;
+
 import com.itextpdf.io.IOException;
+import com.example.test.controllers.sms;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,31 +27,36 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.example.test.model.Virement;
-import com.example.test.service.VirementClientService;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import netscape.javascript.JSObject;
+
+import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
 import java.time.LocalDate;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javafx.scene.control.ComboBox;
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.Properties;
+
 
 
 public class VirementClientController {
 
-
+    @FXML
+    private Button btncreateV;
     @FXML
     private TableView<Virement> tablevirement;
 
@@ -65,12 +86,15 @@ public class VirementClientController {
     private DatePicker tdate; // Utilisation d'un DatePicker pour la sélection de date
     @FXML
     private Label errorMessage; // Un label pour afficher les messages d'erreur
+    @FXML
+    private WebView webView;
+
 
 
     private final VirementClientService virementService = new VirementClientService();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-
+    private BooleanProperty reCaptchaVerified = new SimpleBooleanProperty(false);
     @FXML
     void createVirement() {
         String motif = tmotif.getText().trim();
@@ -82,13 +106,11 @@ public class VirementClientController {
         String montantStr = tmontant.getText().replace(",", ".");
         Long destinataire = combobenef.getValue(); // Utilisez comboBox pour obtenir le destinataire sélectionné
 
-        // Vérifiez que tous les champs nécessaires sont remplis
         if (motif.isEmpty() || montantStr.isEmpty() || destinataire == null || tsource.getText().isEmpty()) {
             showAlertWithError("Erreur de Validation", "Tous les champs doivent être remplis.");
             return;
         }
 
-        // Validation du montant pour qu'il ne soit pas négatif et qu'il ne dépasse pas 6 chiffres
         float montant;
         try {
             montant = Float.parseFloat(montantStr);
@@ -101,7 +123,6 @@ public class VirementClientController {
             return;
         }
 
-        // Validation de la source pour qu'elle contienne exactement 11 chiffres
         String sourceStr = tsource.getText();
         if (sourceStr.length() != 11 || !sourceStr.matches("\\d+")) {
             showAlertWithError("Erreur de Source", "Le numéro de la source doit contenir exactement 11 chiffres.");
@@ -109,16 +130,17 @@ public class VirementClientController {
         }
         long source = Long.parseLong(sourceStr);
 
-        try {
-            LocalDate date = LocalDate.now(); // Capture today's date
+        LocalDate date = LocalDate.now(); // Capture today's date
 
+        try {
             Virement virement = new Virement(source, destinataire, montant, motif, date);
             virementService.create(virement, 1); // Assuming client ID is static here as 1
 
             String email = virementService.getClientEmailByRib(destinataire);
             if (email != null) {
-               sendEmail(email, "Confirmation de Virement", "Votre virement de " + montant + " EUR a été effectué vers votre compte.");
-                showAlertWithSuccess("Succès", "Virement ajouté avec succès et email envoyé.");
+                sendEmail(email, "Confirmation de Virement", "Votre virement de " + montant + " EUR a été effectué vers votre compte.");
+                sms.sendSms("+21655347204", "Votre virement de " + montant + " EUR a été effectué avec succès."); // Utilisez votre propre numéro Twilio et celui du destinataire
+                showAlertWithSuccess("Succès", "Virement ajouté avec succès, email et SMS envoyés.");
             } else {
                 showAlertWithError("Erreur", "Aucun e-mail trouvé pour le RIB sélectionné.");
             }
@@ -133,7 +155,6 @@ public class VirementClientController {
             showAlertWithError("Erreur Inattendue", "Erreur inattendue : " + e.getMessage());
         }
     }
-
 
     @FXML
     void deleteVirement(ActionEvent event) {
@@ -219,20 +240,45 @@ public class VirementClientController {
         tmotif.setText(virement.getMotif());
     }
 
+
     @FXML
     void initialize() {
+        // Setup the TableView selection listener
         this.tablevirement.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                this.populateFields(newSelection);
+                populateFields(newSelection); // Fill fields when a new item is selected
             } else {
-                clearFields();
+                clearFields(); // Clear fields if nothing is selected
             }
         });
+
+        // Configure and refresh TableView
         configureTableView();
         refreshTableView();
         loadRibForSource();
         loadDestinataireRIBs();
+
+        // Initially disable the create button until CAPTCHA is verified
+        btncreateV.setDisable(true);
+        btncreateV.setOnAction(event -> createVirement());
+
+        // Setup WebView and load reCAPTCHA
+        setupWebView();
+        loadReCaptcha();
+
+        scheduleActivation();
+
+
     }
+    private void scheduleActivation() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(30), event -> {
+            btncreateV.setDisable(false);
+            reCaptchaVerified.set(true); // Activer le bouton après 10 secondes
+        }));
+        timeline.play();
+    }
+
+
 
     private void loadRibForSource() {
         try {
@@ -343,6 +389,8 @@ public class VirementClientController {
             e.printStackTrace();
         }
     }
+       // à remplacer par votre mot de passe réel
+
     public static void sendEmail(String to, String subject, String text) throws MessagingException {
         final String username = "Ebanking.Society@gmail.com";  // à remplacer par votre adresse réelle
         final String password = "ypbuklkwyqlktqmi";         // à remplacer par votre mot de passe réel
@@ -368,5 +416,46 @@ public class VirementClientController {
 
         Transport.send(message);
     }
+    private void loadReCaptcha() {
+        WebEngine engine = webView.getEngine();
+        engine.load("http://localhost:8000/recaptcha.html");
+
+        engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                JSObject jsObj = (JSObject) engine.executeScript("window");
+                jsObj.setMember("javaController", this);
+            }
+        });
+    }
+
+    public void setReCaptchaVerified(boolean verified) {
+        Platform.runLater(() -> {
+            reCaptchaVerified.set(verified);
+            System.out.println("ReCaptcha verification status: " + verified);
+            btncreateV.setDisable(!verified);
+        });
+    }
+    private void setupWebView() {
+        webView.getEngine().setJavaScriptEnabled(true); // Enable JavaScript execution
+        webView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                JSObject jsObj = (JSObject) webView.getEngine().executeScript("window");
+                jsObj.setMember("javaBridge", new Bridge()); // Assuming Bridge is your Java-JS interface class
+                jsObj.setMember("javaController", this);
+                // Inject JavaScript function for reCAPTCHA verification
+                webView.getEngine().executeScript("function verifyRecaptcha(response) {" +
+                        "console.log('ReCaptcha response received: ' + response);" +
+                        "if (response && window.javaController && window.javaController.setReCaptchaVerified) {" +
+                        "window.javaController.setReCaptchaVerified(true);" +
+                        "} else {" +
+                        "console.error('javaController or setReCaptchaVerified method is not available.');" +
+                        "}" +
+                        "}");
+            }
+        });
+    }
+
+
+
 
 }

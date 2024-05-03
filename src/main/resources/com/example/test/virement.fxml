@@ -10,6 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="1052.0" styleClass="form_container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.controllers.VirementController">
     <children>
         <VBox prefHeight="300.0" prefWidth="300.0" spacing="15.0" styleClass="form_container" stylesheets="style.css" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0">
@@ -40,7 +43,13 @@
                 <Button fx:id="btncreateV" mnemonicParsing="false" onAction="#createVirement" prefHeight="34.0" prefWidth="200.0" text="Creer" />
                 <Button fx:id="btnmodifV" layoutX="307.0" layoutY="18.0" mnemonicParsing="false" onAction="#updateVirement" prefHeight="34.0" prefWidth="111.0" text="Modifier" />
                 <Button fx:id="btnsuppV" layoutX="307.0" layoutY="18.0" minWidth="4.0" mnemonicParsing="false" onAction="#deleteVirement" prefHeight="40.0" prefWidth="218.0" text="Supprimer" />
+
+
+
             </buttons>
         </ButtonBar>
+        <Button fx:id="btnStatistiques" text="Afficher Statistiques" onAction="#showStatistics"/>
+
+
     </children>
 </AnchorPane>

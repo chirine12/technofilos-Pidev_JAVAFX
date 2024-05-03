@@ -6,7 +6,9 @@ import com.example.test.utils.SQLConnector;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VirementService  {
     private  Connection cnx;
@@ -121,5 +123,21 @@ public class VirementService  {
             }
         }
     }
+    public Map<Integer, Integer> getVirementsByDestinataire() throws SQLException {
+        String sql = "SELECT client_id, COUNT(*) AS nombre_virements FROM Virement GROUP BY client_id";
+        Map<Integer, Integer> stats = new HashMap<>();
+
+        try (Statement statement = cnx.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+               int client_id = rs.getInt("client_id");
+                int nombreVirements = rs.getInt("nombre_virements");
+                stats.put(client_id ,nombreVirements);
+            }
+        }
+
+        return stats;
+    }
+
 
 }

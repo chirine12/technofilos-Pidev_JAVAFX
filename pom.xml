@@ -57,13 +57,20 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>17.0.1</version> <!-- Use the version that matches your JavaFX SDK version -->
+            <version>21.0.1</version> <!-- Assurez-vous que cette version correspond aux autres modules JavaFX -->
         </dependency>
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.22.0</version> <!-- Vérifiez la dernière version disponible -->
+        </dependency>
+
 
 
 

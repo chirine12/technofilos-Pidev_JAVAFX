@@ -11,6 +11,8 @@ module com.example.test {
     requires javafx.web;
     requires java.net.http;
     requires java.mail;
+    requires jdk.jsobject;
+    requires twilio;
     opens com.example.test to javafx.fxml;
 
     exports com.example.test;

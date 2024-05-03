@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.test.controllers.statadmin"
+            prefHeight="800.0" prefWidth="873.0"
+            styleClass="form_container" stylesheets="@style.css">
+
+    <children>
+        <VBox alignment="CENTER" spacing="20" layoutX="136.5" layoutY="200">
+            <!-- Titre -->
+            <Label text="Statistiques des Virements" />
+
+            <!-- BarChart pour afficher les statistiques -->
+            <BarChart fx:id="barChart" prefWidth="600" prefHeight="400">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" label="Clients"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" label="Nombre de virements"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </children>
+</AnchorPane>

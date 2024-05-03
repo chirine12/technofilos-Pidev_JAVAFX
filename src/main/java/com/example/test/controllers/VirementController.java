@@ -4,11 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.example.test.model.Virement;
 import com.example.test.service.VirementService;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -16,6 +25,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class VirementController {
 
@@ -47,6 +57,12 @@ public class VirementController {
     private DatePicker tdate; // Utilisation d'un DatePicker pour la sélection de date
     @FXML
     private Label errorMessage; // Un label pour afficher les messages d'erreur
+    @FXML
+    private Label statisticsLabel;
+    @FXML
+    private Button btnStatistiques;
+    @FXML
+    private BarChart<String, Number> barChart;
 
 
     private final VirementService virementService = new VirementService();
@@ -117,21 +133,21 @@ public class VirementController {
     }
 
     @FXML
-            void deleteVirement (ActionEvent event){
-                Virement selectedVirement = tablevirement.getSelectionModel().getSelectedItem();
-                if (selectedVirement != null) {
-                    try {
-                        virementService.delete(selectedVirement.getId());
-                        refreshTableView();
+    void deleteVirement(ActionEvent event) {
+        Virement selectedVirement = tablevirement.getSelectionModel().getSelectedItem();
+        if (selectedVirement != null) {
+            try {
+                virementService.delete(selectedVirement.getId());
+                refreshTableView();
 
-                    } catch (SQLException e) {
-                        System.out.println("Erreur lors de la suppression du virement: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println("Sélectionnez un virement à supprimer.");
-                }
+            } catch (SQLException e) {
+                System.out.println("Erreur lors de la suppression du virement: " + e.getMessage());
+                e.printStackTrace();
             }
+        } else {
+            System.out.println("Sélectionnez un virement à supprimer.");
+        }
+    }
 
     @FXML
     void updateVirement(ActionEvent event) {
@@ -194,65 +210,104 @@ public class VirementController {
     }
 
 
-    private void populateFields (Virement virement){
-                tsource.setText(String.valueOf(virement.getSource()));
-                tdestinataire.setText(String.valueOf(virement.getDestinataire()));
-                tmontant.setText(String.format("%.2f", virement.getMontant()));
-                tmotif.setText(virement.getMotif());
+    private void populateFields(Virement virement) {
+        tsource.setText(String.valueOf(virement.getSource()));
+        tdestinataire.setText(String.valueOf(virement.getDestinataire()));
+        tmontant.setText(String.format("%.2f", virement.getMontant()));
+        tmotif.setText(virement.getMotif());
 
+    }
+
+    @FXML
+    void initialize() {
+        this.tablevirement.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                this.populateFields(newSelection);
+            } else {
+                clearFields();
             }
+        });
+        configureTableView();
+        refreshTableView();
+        //btnStatistiques.setOnAction(this::afficherStatistiques);
+    }
 
-            @FXML
-            void initialize () {
-                this.tablevirement.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        this.populateFields(newSelection);
-                    } else {
-                        clearFields();
-                    }
-                });
-                configureTableView();
-                refreshTableView();
-            }
+    private void configureTableView() {
+        // Assurez-vous que le type générique de TableColumn correspond à <Virement, TypeDeLaPropriété>
+        // Par exemple, pour idCol qui pourrait être un Integer, la déclaration pourrait ressembler à TableColumn<Virement, Integer>
 
-            private void configureTableView () {
-                // Assurez-vous que le type générique de TableColumn correspond à <Virement, TypeDeLaPropriété>
-                // Par exemple, pour idCol qui pourrait être un Integer, la déclaration pourrait ressembler à TableColumn<Virement, Integer>
-
-               // this.idCol.setCellValueFactory(new PropertyValueFactory<Virement, Integer>("id"));
-                this.srcCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("source"));
-                this.destCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("destinataire"));
-                this.montantCol.setCellValueFactory(new PropertyValueFactory<Virement, Float>("montant"));
-                this.motifCol.setCellValueFactory(new PropertyValueFactory<Virement, String>("motif"));
-                this.dateCol.setCellValueFactory(new PropertyValueFactory<Virement, Date>("date"));
-            }
+        // this.idCol.setCellValueFactory(new PropertyValueFactory<Virement, Integer>("id"));
+        this.srcCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("source"));
+        this.destCol.setCellValueFactory(new PropertyValueFactory<Virement, Long>("destinataire"));
+        this.montantCol.setCellValueFactory(new PropertyValueFactory<Virement, Float>("montant"));
+        this.motifCol.setCellValueFactory(new PropertyValueFactory<Virement, String>("motif"));
+        this.dateCol.setCellValueFactory(new PropertyValueFactory<Virement, Date>("date"));
+    }
 
 
-            private void refreshTableView () {
-                try {
-                    List<Virement> virements = virementService.read();
-                    ObservableList<Virement> virementObservableList = FXCollections.observableArrayList(virements);
-                    tablevirement.setItems(virementObservableList);
-                } catch (SQLException e) {
-                    errorMessage.setText("Erreur lors de l'actualisation des virements: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-            private void clearFields () {
-                tsource.clear();
-                tdestinataire.clear();
-                tmontant.clear();
-                tmotif.clear();
-
-
-            }
-            private void showAlertWithError (String title, String content){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(title);
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
+    private void refreshTableView() {
+        try {
+            List<Virement> virements = virementService.read();
+            ObservableList<Virement> virementObservableList = FXCollections.observableArrayList(virements);
+            tablevirement.setItems(virementObservableList);
+        } catch (SQLException e) {
+            errorMessage.setText("Erreur lors de l'actualisation des virements: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void clearFields() {
+        tsource.clear();
+        tdestinataire.clear();
+        tmontant.clear();
+        tmotif.clear();
+
+
+    }
+
+    private void showAlertWithError(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    void showStatistics(ActionEvent event) {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/example/test/statadmin.fxml");
+            if (fxmlUrl == null) {
+                throw new java.io.IOException("Cannot find FXML file");
+            }
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            AnchorPane statisticsLayout = loader.load();  // Utilisez AnchorPane au lieu de VBox
+
+
+            Stage statisticsStage = new Stage();
+            statisticsStage.setTitle("Statistiques des Virements");
+            statisticsStage.setScene(new Scene(statisticsLayout));
+            statisticsStage.show();
+
+            statadmin statisticsController = loader.getController();
+            if (statisticsController == null) {
+                throw new IOException("Controller not instantiated");
+            }
+            statisticsController.initializeStatistics();
+        } catch (Exception e) {  // Catching all exceptions to diagnose the issue
+            e.printStackTrace();
+            showAlertWithError("Erreur de Chargement", "Impossible de charger la vue des statistiques: " + e.getMessage());
+        }
+    }
+
+
+    }
+
+
+
+
+
+
+
+
 
 
