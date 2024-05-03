@@ -123,21 +123,26 @@ public class VirementService  {
             }
         }
     }
-    public Map<Integer, Integer> getVirementsByDestinataire() throws SQLException {
-        String sql = "SELECT client_id, COUNT(*) AS nombre_virements FROM Virement GROUP BY client_id";
-        Map<Integer, Integer> stats = new HashMap<>();
+    public Map<Long, Integer> getVirementCountByClient() throws SQLException {
+        Map<Long, Integer> virementCounts = new HashMap<>();
+        String sql = "SELECT source, COUNT(*) as count FROM Virement GROUP BY source";
 
-        try (Statement statement = cnx.createStatement();
-             ResultSet rs = statement.executeQuery(sql)) {
+        try (PreparedStatement statement = cnx.prepareStatement(sql);
+             ResultSet rs = statement.executeQuery()) {
+
             while (rs.next()) {
-               int client_id = rs.getInt("client_id");
-                int nombreVirements = rs.getInt("nombre_virements");
-                stats.put(client_id ,nombreVirements);
+                long clientId = rs.getLong("source");
+                int count = rs.getInt("count");
+                virementCounts.put(clientId, count);
             }
+        } catch (SQLException e) {
+            // Handle or throw the SQL exception appropriately
+            throw e;
         }
-
-        return stats;
+        return virementCounts;
     }
+
+
 
 
 }

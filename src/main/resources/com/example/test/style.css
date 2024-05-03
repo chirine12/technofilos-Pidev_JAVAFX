@@ -50,3 +50,22 @@
     -fx-cursor: hand;
     -fx-background-color: linear-gradient(to right, #092834, #014D70); /* Un hover plus sombre */
 }
+/* Styliser l'ensemble du BarChart */
+.bar-chart {
+    -fx-bar-fill: #0a3353; /* Couleur des barres */
+}
+
+/* Styliser les axes */
+.axis {
+    -fx-tick-label-fill: black; /* Couleur des étiquettes */
+    -fx-tick-label-font-size: 12px; /* Taille de la police des étiquettes */
+}
+
+/* Styliser les barres spécifiquement */
+.default-color0.chart-bar {
+    -fx-bar-fill: #0a3353; /* Couleur bleue pour les barres */
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: #81c784; /* Couleur verte pour un autre ensemble de barres, si présent */
+}

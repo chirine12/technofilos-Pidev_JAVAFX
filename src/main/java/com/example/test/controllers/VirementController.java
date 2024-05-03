@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -272,30 +273,19 @@ public class VirementController {
         alert.showAndWait();
     }
 
-    @FXML
-    void showStatistics(ActionEvent event) {
+    public void showStatistics() {
         try {
-            URL fxmlUrl = getClass().getResource("/com/example/test/statadmin.fxml");
-            if (fxmlUrl == null) {
-                throw new java.io.IOException("Cannot find FXML file");
-            }
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            AnchorPane statisticsLayout = loader.load();  // Utilisez AnchorPane au lieu de VBox
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/test/statadmin.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques des Virements");
+            stage.setScene(new Scene(root));
+            stage.show();
 
-
-            Stage statisticsStage = new Stage();
-            statisticsStage.setTitle("Statistiques des Virements");
-            statisticsStage.setScene(new Scene(statisticsLayout));
-            statisticsStage.show();
-
-            statadmin statisticsController = loader.getController();
-            if (statisticsController == null) {
-                throw new IOException("Controller not instantiated");
-            }
-            statisticsController.initializeStatistics();
-        } catch (Exception e) {  // Catching all exceptions to diagnose the issue
+            // Optionnel: Fermer la fenêtre actuelle, si désiré
+            // ((Stage) barChart.getScene().getWindow()).close();
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlertWithError("Erreur de Chargement", "Impossible de charger la vue des statistiques: " + e.getMessage());
         }
     }
 
