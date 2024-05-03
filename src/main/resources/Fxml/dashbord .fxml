@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projetpi.Controllers.AssuranceController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane layoutX="14.0" prefHeight="600.0" prefWidth="1112.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="66.0" prefWidth="1100.0" stylesheets="@../css/admincss.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label layoutX="112.0" layoutY="19.0" prefHeight="38.0" prefWidth="475.0" text="ASSURANCE MANEGMENT SYSTEM">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="shadow" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </AnchorPane>
+               </top>
+               <left>
+                  <AnchorPane prefHeight="529.0" prefWidth="234.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane layoutX="4.8" layoutY="3.2" prefHeight="530.0" prefWidth="222.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="3.0">
+                           <children>
+                              <Label layoutX="67.0" layoutY="110.0" text="Welcome">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="100.0" layoutX="117.0" layoutY="155.0" startX="-100.0" />
+                              <Button fx:id="homebtn" layoutX="19.0" layoutY="176.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" text="Home " />
+                              <Button fx:id="addBtn" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" text="Add Assurance " />
+                              <Button layoutX="17.0" layoutY="289.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" text="Assurance " />
+                           </children>
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                              <String fx:value="label-info" />
+                              <String fx:value="textfield" />
+                              <String fx:value="filter" />
+                              <String fx:value="nav-btn" />
+                           </styleClass>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane maxHeight="522.0" maxWidth="859.0" prefHeight="441.0" prefWidth="859.0" stylesheets="@../css/admincss.css" BorderPane.alignment="CENTER">
+                     <styleClass>
+                        <String fx:value="white-bg" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <AnchorPane prefHeight="522.4" prefWidth="859.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane fx:id="add_form" prefHeight="530.0" prefWidth="886.0" stylesheets="@../css/admincss.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane prefHeight="530.0" prefWidth="874.0">
+                                       <children>
+                                          <AnchorPane prefHeight="253.0" prefWidth="886.0" stylesheets="@../css/admincss.css">
+                                             <styleClass>
+                                                <String fx:value="shadow" />
+                                                <String fx:value="white-bg" />
+                                             </styleClass>
+                                             <children>
+                                                <TextField layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="306.0" promptText="search" styleClass="search" stylesheets="@../css/admincss.css" />
+                                             </children>
+                                          </AnchorPane>
+                                          <TableView fx:id="table" layoutX="5.0" layoutY="46.0" onMouseClicked="#getData" prefHeight="206.0" prefWidth="439.0" styleClass="title">
+                                             <columns>
+                                                <TableColumn fx:id="coltype" prefWidth="141.5999755859375" text="TYPE" />
+                                                <TableColumn fx:id="coldelais" prefWidth="148.800048828125" text="DELAIS" />
+                                                <TableColumn fx:id="colmontant" prefWidth="148.7999267578125" text="MONTANT" />
+                                             </columns>
+                                          </TableView>
+                                          <ButtonBar buttonMinWidth="120.0" layoutX="319.0" layoutY="462.0" prefHeight="40.0" prefWidth="470.0">
+                                             <buttons>
+                                                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#createAssurance" prefHeight="22.0" prefWidth="218.0" styleClass="add-btn" stylesheets="@../css/admincss.css" text="Save" />
+                                                <Button fx:id="btnClear" mnemonicParsing="false" onAction="#clearField" styleClass="clear-btn" stylesheets="@../css/admincss.css" text="Clear" />
+                                                <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateAssurance" styleClass="update-btn" text="Update" />
+                                                <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteAssurance" styleClass="delete-btn" text="Delete" />
+                                             </buttons>
+                                          </ButtonBar>
+                                          <AnchorPane prefHeight="530.0" prefWidth="886.0">
+                                             <children>
+                                                <VBox layoutX="21.0" layoutY="277.0" prefHeight="145.0" prefWidth="386.0" spacing="10.0">
+                                                   <children>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="type" wrappingWidth="308.00312423706055" />
+                                                      <TextField fx:id="tType" styleClass="textfield" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Delais" wrappingWidth="304.49921798706055" />
+                                                      <TextField fx:id="tdelais" styleClass="textfield" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant " />
+                                                      <TextField fx:id="tMontant" styleClass="textfield" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="home_form" prefHeight="200.0" prefWidth="200.0" visible="false">
+                           <children>
+                              <AnchorPane prefHeight="148.0" prefWidth="857.0" stylesheets="@../css/admincss.css">
+                                 <styleClass>
+                                    <String fx:value="shadow" />
+                                    <String fx:value="white-bg" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane layoutX="16.0" layoutY="6.4" prefHeight="133.0" prefWidth="286.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="556.0" AnchorPane.topAnchor="6.0">
+                                       <styleClass>
+                                          <String fx:value="nav-form" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <Label layoutX="78.0" layoutY="82.0" prefHeight="35.0" prefWidth="206.0" text="Total Assurance " textFill="#e7e7e7">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="231.0" layoutY="14.0" text="0" textFill="#faf0f0">
+                                             <font>
+                                                <Font size="40.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                              <BarChart animated="false" layoutX="15.0" layoutY="179.0" prefHeight="331.0" prefWidth="717.0" title="Assurance Data ">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="white-bg" />
+               </styleClass>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

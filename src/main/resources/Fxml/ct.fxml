@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane layoutX="14.0" prefHeight="600.0" prefWidth="1112.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="66.0" prefWidth="1100.0" stylesheets="@../css/admincss.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label layoutX="112.0" layoutY="19.0" prefHeight="38.0" prefWidth="475.0" text="CONTRAT MANEGMENT SYSTEM">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="shadow" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </AnchorPane>
+               </top>
+               <left>
+                  <AnchorPane prefHeight="529.0" prefWidth="234.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane layoutX="4.8" layoutY="3.2" prefHeight="530.0" prefWidth="222.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="3.0">
+                           <children>
+                              <Label layoutX="67.0" layoutY="110.0" text="Welcome">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="100.0" layoutX="117.0" layoutY="155.0" startX="-100.0" />
+                              <Button fx:id="homebtn" layoutX="19.0" layoutY="176.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" text="Home " />
+                              <Button fx:id="addBtn" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="200.0" text="Add Contrat" />
+                              <Button layoutX="17.0" layoutY="289.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" text="Contrat" />
+                           </children>
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="white-bg" />
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                              <String fx:value="label-info" />
+                              <String fx:value="textfield" />
+                              <String fx:value="filter" />
+                              <String fx:value="nav-btn" />
+                           </styleClass>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane maxHeight="522.0" maxWidth="859.0" prefHeight="441.0" prefWidth="859.0" stylesheets="@../css/admincss.css" BorderPane.alignment="CENTER">
+                     <styleClass>
+                        <String fx:value="white-bg" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <AnchorPane fx:id="addForm" prefHeight="522.4" prefWidth="859.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane fx:id="add_form" prefHeight="530.0" prefWidth="886.0" stylesheets="@../css/admincss.css">
+                                 <styleClass>
+                                    <String fx:value="white-bg" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane fx:id="add2form" prefHeight="530.0" prefWidth="874.0">
+                                       <children>
+                                          <AnchorPane prefHeight="253.0" prefWidth="886.0" stylesheets="@../css/admincss.css">
+                                             <styleClass>
+                                                <String fx:value="shadow" />
+                                                <String fx:value="white-bg" />
+                                             </styleClass>
+                                             <children>
+                                                <TextField fx:id="search_0" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="306.0" promptText="search" styleClass="search" stylesheets="@../css/admincss.css" />
+                                                <TableView fx:id="table" layoutX="14.0" layoutY="57.0" onMouseClicked="#getData" prefHeight="182.0" prefWidth="884.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="tType" prefWidth="142.4000186920166" text="type" />
+                                                      <TableColumn fx:id="tnumero" prefWidth="176.79995727539062" text="numero" />
+                                                      <TableColumn fx:id="tSignature" prefWidth="164.7999267578125" text="Signature" />
+                                                      <TableColumn fx:id="tdatedebut" minWidth="0.0" prefWidth="175.20010375976562" text="datedebut" />
+                                                      <TableColumn fx:id="tdatefin" prefWidth="215.199951171875" text="datefin" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </AnchorPane>
+                                          <Label layoutX="31.0" layoutY="278.0" prefHeight="18.0" prefWidth="146.0" text="Type " />
+                                          <TextField fx:id="ttyp" layoutX="125.0" layoutY="274.0" prefHeight="26.0" prefWidth="175.0" stylesheets="@../css/styles2.css" />
+                                          <Label layoutX="26.0" layoutY="317.0" text="Numero" />
+                                          <TextField fx:id="tNumero" layoutX="125.0" layoutY="313.0" prefHeight="26.0" prefWidth="258.0" />
+                                          <Label layoutX="27.0" layoutY="366.0" text="Datedebut " />
+                                          <DatePicker fx:id="tDatedebut" layoutX="125.0" layoutY="349.0" prefHeight="51.0" prefWidth="250.0" />
+                                          <DatePicker fx:id="tDatefin" layoutX="125.0" layoutY="400.0" prefHeight="51.0" prefWidth="250.0" />
+                                          <Label layoutX="27.0" layoutY="417.0" text="Datefin " />
+                                          <Label layoutX="477.0" layoutY="288.0" text="Signature " />
+                                          <AnchorPane layoutX="635.0" layoutY="275.0" prefHeight="170.0" prefWidth="202.0">
+                                             <children>
+                                                <Button fx:id="tImport" layoutY="159.0" mnemonicParsing="false" onAction="#importImage" prefHeight="26.0" prefWidth="202.0" styleClass="import-btn" text="Import" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="159.0" />
+                                                <ImageView fx:id="tImage" fitHeight="162.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                          </AnchorPane>
+                                          <ButtonBar layoutX="91.0" layoutY="489.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="772.0">
+                                             <buttons>
+                                                <Button fx:id="bDelete" minWidth="62.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteContrat" prefHeight="44.0" prefWidth="224.0" styleClass="delete-btn" stylesheets="@../css/admincss.css" text="Delete" />
+                                                <Button fx:id="bUpdate" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#updateContrat" prefHeight="44.0" prefWidth="250.0" styleClass="update-btn" text="Update" />
+                                                <Button fx:id="bSave" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#createContrat" prefHeight="44.0" prefWidth="250.0" styleClass="add-btn" text="Save" />
+                                                <Button fx:id="bClear" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#clearField" prefHeight="44.0" prefWidth="250.0" styleClass="clear-btn" text="Clear" />
+                                             </buttons>
+                                          </ButtonBar>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="home_form" prefHeight="522.0" prefWidth="858.0" visible="false">
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <AnchorPane prefHeight="148.0" prefWidth="857.0" stylesheets="@../css/admincss.css">
+                                       <styleClass>
+                                          <String fx:value="shadow" />
+                                          <String fx:value="white-bg" />
+                                       </styleClass>
+                                       <children>
+                                          <AnchorPane layoutX="16.0" layoutY="6.4" prefHeight="133.0" prefWidth="286.0" stylesheets="@../css/admincss.css" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="556.0" AnchorPane.topAnchor="6.0">
+                                             <styleClass>
+                                                <String fx:value="nav-form" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                             <children>
+                                                <Label layoutX="78.0" layoutY="82.0" prefHeight="35.0" prefWidth="206.0" text="Total Assurance " textFill="#e7e7e7">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="nombreA" layoutX="231.0" layoutY="14.0" text="0" textFill="#faf0f0">
+                                                   <font>
+                                                      <Font size="40.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <BarChart fx:id="chartS" animated="false" layoutY="200.0" prefHeight="320.0" prefWidth="718.0" title="Assurance Data ">
+                                       <xAxis>
+                                          <CategoryAxis fx:id="chartX" side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="chartY" side="LEFT" />
+                                       </yAxis>
+                                    </BarChart>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="white-bg" />
+               </styleClass>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
