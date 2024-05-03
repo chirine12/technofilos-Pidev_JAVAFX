@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane onMouseClicked="#updateAssurance" prefHeight="568.0" prefWidth="859.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projetpi.Controllers.AssuranceController">
+   <children>
+      <VBox layoutX="14.0" layoutY="133.0" prefHeight="286.0" prefWidth="416.0" spacing="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="type" wrappingWidth="308.00312423706055" />
+            <TextField fx:id="tType" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Delais" wrappingWidth="304.49921798706055" />
+            <TextField fx:id="tdelais" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Montant " />
+            <TextField fx:id="tMontant" />
+         </children>
+      </VBox>
+      <TableView fx:id="table" layoutX="437.0" layoutY="126.0" onMouseClicked="#getData" prefHeight="300.0" prefWidth="439.0" styleClass="title">
+        <columns>
+          <TableColumn fx:id="coltype" prefWidth="141.5999755859375" text="TYPE" />
+            <TableColumn fx:id="coldelais" prefWidth="148.800048828125" text="DELAIS" />
+            <TableColumn fx:id="colmontant" prefWidth="148.7999267578125" text="MONTANT" />
+        </columns>
+      </TableView>
+      <Label layoutX="360.0" layoutY="37.0" prefHeight="40.0" prefWidth="416.0" text="Assurance " textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="34.0" />
+         </font>
+      </Label>
+      <ButtonBar buttonMinWidth="120.0" layoutX="164.0" layoutY="481.0" prefHeight="40.0" prefWidth="470.0">
+        <buttons>
+          <Button fx:id="btnSave" mnemonicParsing="false" onAction="#createAssurance" prefHeight="22.0" prefWidth="218.0" text="Save" />
+            <Button fx:id="btnClear" mnemonicParsing="false" onAction="#clearField" text="Clear" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateAssurance" text="Update" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteAssurance" text="Delete" />
+        </buttons>
+      </ButtonBar>
+      <Button layoutX="741.0" layoutY="538.0" mnemonicParsing="false" onMouseClicked="#switchTocontrat" prefHeight="22.0" prefWidth="120.0" text="get your contrat " AnchorPane.bottomAnchor="44.40000000000009" AnchorPane.leftAnchor="741.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="538.0" />
+   </children>
+   <styleClass>
+      <String fx:value="assuranceButton" />
+      <String fx:value="form_container" />
+      <String fx:value="column-header" />
+      <String fx:value="largeButton" />
+      <String fx:value="smallButton" />
+   </styleClass>
+</AnchorPane>
