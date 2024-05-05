@@ -1,0 +1,65 @@
+/* Style général de l'AnchorPane */
+.anchor-pane {
+    -fx-background-color: #deb2f5;
+}
+
+/* Styles pour VBox qui contient les champs et boutons */
+.vbox {
+    -fx-padding: 20;
+    -fx-background-color: #ffffff; /* Fond blanc pour le panneau de connexion */
+    -fx-border-color: #d1d8e0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Styles pour les labels */
+.label {
+    -fx-font-size: 16px; /* Taille de la police des étiquettes */
+    -fx-text-fill: #333333; /* Couleur de texte des étiquettes */
+}
+.text-field, .password-field {
+    -fx-font-size: 14px;
+    -fx-pref-height: 35;
+    -fx-pref-width: 300;
+    -fx-border-color: #d1d8e0;
+    -fx-border-radius: 10; /* Coins arrondis modérés */
+    -fx-padding: 5;
+    -fx-background-color: #ffffff; /* Fond blanc pour une apparence épurée */
+    -fx-box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Ombre légère */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); /* Effet d'ombre subtil */
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #7e1bb6; /* Changement de couleur pour indiquer le focus */
+    -fx-transition: all 0.3s ease; /* Transition douce pour le focus */
+}
+
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #842db6; /* Couleur de fond des boutons */
+    -fx-text-fill: white; /* Couleur de texte des boutons */
+    -fx-font-size: 15px;
+    -fx-border-radius: 30;
+    -fx-background-radius: 5;
+    -fx-padding: 10 10;
+    -fx-cursor: hand; /* Cursor changes to hand when hovered */
+}
+
+.button:hover {
+    -fx-background-color: #82c885; /* Changement de couleur lors du survol */
+}
+
+/* Styles spécifiques pour le bouton d'enregistrement pour le distinguer */
+#redirectToRegistration {
+    -fx-background-color: #4285F4; /* Couleur Google blue pour le bouton d'enregistrement */
+}
+
+#redirectToRegistration:hover {
+    -fx-background-color: #77a9f0; /* Légère variation pour le survol */
+}
+.auth-label {
+    -fx-font-size: 30px; /* Taille de police plus grande */
+    -fx-text-fill: #6a1b9a; /* Couleur de texte pour l'authentification */
+    -fx-font-weight: bold; /* Rendre le texte gras */
+}

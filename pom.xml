@@ -40,7 +40,11 @@
             <artifactId>javase</artifactId>
             <version>3.4.1</version> <!-- Or the latest version available -->
         </dependency>
-
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
 
     </dependencies>
     <build>
@@ -50,7 +54,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>tn.esprit.test.MainC</mainClass>
+                    <mainClass>tn.esprit.test.MainCheque</mainClass>
                 </configuration>
             </plugin>
         </plugins>

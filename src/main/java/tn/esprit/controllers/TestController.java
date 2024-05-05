@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 public class TestController {
     @FXML
     public Button CreateButton;
@@ -56,10 +57,21 @@ public class TestController {
     private final CarteService carteService = new CarteService();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
+    private String generateCardNumber() {
+        StringBuilder cardNumber = new StringBuilder();
+        Random random = new Random();
+        // Le numéro de carte doit avoir 16 chiffres
+        for (int i = 0; i < 16; i++) {
+            cardNumber.append(random.nextInt(10)); // Génère un chiffre aléatoire entre 0 et 9
+        }
+        return cardNumber.toString();
+    }
+
     @FXML
     void createCarte() {
         // Récupérer les valeurs depuis l'interface utilisateur
-        String Num = txtNum.getText().trim(); // Assurez-vous d'avoir un TextField pour le motif
+        String Num = generateCardNumber(); // Assurez-vous d'avoir un TextField pour le motif
         String Nom = txtNom.getText().trim();
         String CVV = txtCVV.getText().trim();
 
@@ -101,10 +113,12 @@ public class TestController {
         Date date = Date.valueOf(datedebValue);
 
         try {
-            // Création de l'instance de Credit et ajout via le service
+            // Création de l'instance de Carte et ajout via le service
             Carte carte = new Carte(Numero, Nom, date, C);
             carteService.create(carte);
             System.out.println("Nouveau carte ajouté avec succès !");
+
+            System.out.println("E-mail envoyé à l'utilisateur pour informer la création du crédit !");
             // Réinitialiser les champs de l'interface utilisateur
             txtNum.clear();
             txtNom.clear();

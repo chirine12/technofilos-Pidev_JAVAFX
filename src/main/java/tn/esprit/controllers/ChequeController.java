@@ -72,7 +72,8 @@ public class ChequeController {
     private  Button readQRButton;
 
     @FXML
-    private  TextField txtQR;
+    private TextArea txtQR;
+
     @FXML
     private TextField searchField;
 
@@ -372,20 +373,35 @@ public class ChequeController {
     private void generateQRCode() {
         String chequeNumber = txtNum.getText().trim();
         String rib = txtNumCom.getText().trim();
+        LocalDate dateC = txtDate.getValue(); // Récupérer la date sélectionnée depuis le DatePicker
 
-        // Concatenate the cheque details into a single string
-        String chequeDetails = "Cheque Number: " + chequeNumber + "\nRIB: " + rib;
+        // Vérifier si la date est après la date actuelle
+        LocalDate currentDate = LocalDate.now();
+        String status;
+        if (dateC != null && dateC.isAfter(currentDate)) {
+            status = "Cheque versable jusqu'à la date : " + dateC;
+        } else {
+            status = "Attention : Cheque frauduleux !";
+        }
 
-        // Set the width and height of the QR code
+        // Concaténer les détails du chèque avec le statut
+        String chequeDetails = "Cheque Number: " + chequeNumber +
+                "\nRIB: " + rib +
+                "\nStatut: " + status;
+
+        // Définir la largeur et la hauteur du code QR
         int width = 350;
         int height = 350;
 
-        // Generate the QR code image based on the cheque details
+        // Générer l'image du code QR en fonction des détails du chèque
         Image qrImage = generateQRCodeImage(chequeDetails, width, height);
 
-        // Set the generated QR code image to the ImageView
+        // Définir l'image générée du code QR dans l'ImageView
         qrCodeImageView.setImage(qrImage);
+        txtQR.setText(chequeDetails);
+        txtQR.setWrapText(true);
     }
+
 
     private Image generateQRCodeImage(String text, int width, int height) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -441,6 +457,8 @@ public class ChequeController {
 
             // Print the output
             System.out.println("Output: " + output);
+
+            txtQR.setText(output.toString());
 
             // Handle exit code if needed
             if (exitCode != 0) {
